@@ -1,0 +1,24 @@
+{
+  "name": "office-mate-checker",
+  "version": "1.0.0",
+  "description": "Office Mate Checker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peleek/Office-Mate-Checker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peleek/Office-Mate-Checker/issues"
+  },
+  "homepage": "https://github.com/peleek/Office-Mate-Checker#readme",
+  "dependencies": {
+    "apollo-server": "^2.13.1",
+    "graphql": "^15.0.0",
+    "mongoose": "^5.9.14"
+  }
+}
