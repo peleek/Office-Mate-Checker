@@ -2,9 +2,18 @@
   "name": "office-mate-checker",
   "version": "1.0.0",
   "description": "Office Mate Checker",
-  "main": "index.js",
+  "main": "src/index.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "start:debug": "node --inspect=5858 -r ts-node/register src/index.ts",
+    "dev": "nodemon",
+    "format": "prettier --write --loglevel=warn 'src/**/*.ts'",
+    "lint": "tslint src/**/*.ts"
+  },
+  "engines": {
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
@@ -17,8 +26,24 @@
   },
   "homepage": "https://github.com/peleek/Office-Mate-Checker#readme",
   "dependencies": {
+    "apollo-boost": "^0.4.9",
     "apollo-server": "^2.13.1",
+    "babel-polyfill": "^6.26.0",
     "graphql": "^15.0.0",
-    "mongoose": "^5.9.14"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.14",
+    "parcel": "^2.0.0-alpha.3.2",
+    "ts-node": "^8.10.1"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.5.0",
+    "@types/mongoose": "^5.7.20",
+    "nodemon": "^2.0.4",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.9.2"
   }
 }
