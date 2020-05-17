@@ -1,0 +1,51 @@
+{
+  "name": "office-mate-checker",
+  "version": "1.0.0",
+  "description": "Office Mate Checker",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "start:debug": "node --inspect=5858 -r ts-node/register src/index.ts",
+    "dev": "nodemon",
+    "format": "prettier --write --loglevel=warn 'src/**/*.ts'",
+    "lint": "tslint src/**/*.ts"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peleek/Office-Mate-Checker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peleek/Office-Mate-Checker/issues"
+  },
+  "homepage": "https://github.com/peleek/Office-Mate-Checker#readme",
+  "dependencies": {
+    "@types/node": "^14.0.1",
+    "apollo-boost": "^0.4.9",
+    "apollo-server": "^2.13.1",
+    "babel-polyfill": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.14",
+    "parcel": "^2.0.0-alpha.3.2",
+    "ts-node": "^8.10.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/graphql": "^14.5.0",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.20",
+    "nodemon": "^2.0.4",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.2"
+  }
+}
