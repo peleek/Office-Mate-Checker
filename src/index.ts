@@ -1,36 +1,10 @@
 import { ApolloServer } from 'apollo-server';
-import gql from 'graphql-tag';
 import mongoose from 'mongoose';
 import { config as dotEnvConfig } from 'dotenv'
-import { PostModel } from './models/Post';
+import { resolvers } from './graphql/resolvers';
+import { typeDefs } from './graphql/typeDefs';
 
 dotEnvConfig();
-
-const typeDefs = gql`
-    type Post{
-        id: ID!
-        body: String!
-        createdAt: String!
-        username: String!
-    }
-
-    type Query{
-        getPosts: [Post]
-    }
-`
-
-const resolvers = {
-    Query: {
-        async getPosts() {
-            try {
-                const posts = await PostModel.find();
-                return posts;
-            } catch (err) {
-                throw new Error(err)
-            }
-        }
-    }
-}
 
 const server = new ApolloServer({
     typeDefs,
