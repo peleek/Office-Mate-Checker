@@ -1,8 +1,10 @@
 import { ApolloServer } from 'apollo-server';
 import gql from 'graphql-tag';
 import mongoose from 'mongoose';
-
+import { config as dotEnvConfig } from 'dotenv'
 import { PostModel } from './models/Post';
+
+dotEnvConfig();
 
 const typeDefs = gql`
     type Post{
@@ -35,7 +37,7 @@ const server = new ApolloServer({
     resolvers
 })
 
-mongoose.connect('mongodb+srv://admin:TmSlGmMt2p28gm5q@cluster0-brsz2.mongodb.net/office-mate-checker?retryWrites=true&w=majority', { useNewUrlParser: true })
+mongoose.connect(`${process.env["MONGODB"]}`, { useNewUrlParser: true })
     .then(() => {
         console.log("Connected to database!")
         return server.listen({ port: 5000 })
