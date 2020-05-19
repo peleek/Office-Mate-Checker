@@ -1,4 +1,4 @@
 import ReactDOM from 'react-dom';
-import ApolloProvider from './ApolloProvider';
+import { ApolloWrapper } from './ApolloProvider';
 
-ReactDOM.render(ApolloProvider, document.getElementById('root'));
+ReactDOM.render(ApolloWrapper, document.getElementById('root'));

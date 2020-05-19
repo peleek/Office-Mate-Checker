@@ -6,23 +6,22 @@ import { Link } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router';
 
 export const NavbarComponent = (props: RouteComponentProps) => {
+	const { location } = props;
+	const [value, setValue] = React.useState(location.pathname);
 
-    const [value, setValue] = React.useState(props.location.pathname);
+	const handleChange = (e, newValue: string) => {
+		setValue(newValue);
+	};
 
-    const handleChange = (e, newValue: string) => {
-        setValue(newValue);
-    };
-
-    return (
-        <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                <Tab label="home" value={'/'} component={Link} to={'/'} />
-                <Tab label="login" value={'/login'} component={Link} to={'/login'} />
-                <Tab label="register" value={'/register'} component={Link} to={'/register'} />
-            </Tabs>
-        </AppBar>
-
-    );
-}
+	return (
+		<AppBar position="static">
+			<Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+				<Tab label="home" value="/" component={Link} to="/" />
+				<Tab label="login" value="/login" component={Link} to="/login" />
+				<Tab label="register" value="/register" component={Link} to="/register" />
+			</Tabs>
+		</AppBar>
+	);
+};
 
 export const Navbar = withRouter(NavbarComponent);

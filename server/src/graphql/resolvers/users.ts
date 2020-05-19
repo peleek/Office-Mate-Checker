@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserInputError } from 'apollo-server';
-import * as lodash from 'lodash';
 
 import { UserModel, IUserSchema } from '../../models/User';
 import { validateRegisterInput, validateLoginInput } from '../../../util/validators';
@@ -36,7 +35,6 @@ export const UsersResolvers = {
             }
 
             const token = generateToken(user);
-
 
             return {
                 username: user.username,
