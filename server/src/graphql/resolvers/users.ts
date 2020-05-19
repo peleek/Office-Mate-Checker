@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserInputError } from 'apollo-server';
+import * as lodash from 'lodash';
 
 import { UserModel, IUserSchema } from '../../models/User';
 import { validateRegisterInput, validateLoginInput } from '../../../util/validators';
@@ -17,7 +18,7 @@ export const UsersResolvers = {
     Mutation: {
         async login(_, { username, password }) {
             const errors = validateLoginInput(username, password);
-            if (errors.length) {
+            if (Object.keys(errors)) {
                 throw new UserInputError('Errors', {
                     errors
                 })
@@ -42,13 +43,18 @@ export const UsersResolvers = {
                 email: user.email,
                 password: user.password,
                 id: user.id,
+                createdAt: user.createdAt,
                 token
             }
         },
         async register(_, { registerInput: { username, email, password, confirmPassword } }) {
             // TODO: validate user data
             const errors = validateRegisterInput(username, email, password, confirmPassword)
-            if (errors.length) {
+            debugger;
+            const areThereAnyErrors = Object.values(errors).some(el => el.length);
+
+            if (areThereAnyErrors) {
+                console.log(errors);
                 throw new UserInputError('Errors in register form', {
                     errors
                 })
@@ -59,7 +65,10 @@ export const UsersResolvers = {
             const user = await UserModel.findOne({ username });
             if (user) {
                 throw new UserInputError('Username is taken', {
-                    errors: ['This username is taken']
+                    errors: {
+                        ...errors,
+                        username: ['This username is taken']
+                    }
                 })
             }
             const newUser = new UserModel({
@@ -77,6 +86,7 @@ export const UsersResolvers = {
                 email: res.email,
                 password: res.password,
                 id: res.id,
+                createdAt: res.createdAt,
                 token
             }
         }
