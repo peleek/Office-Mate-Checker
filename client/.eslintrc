@@ -12,9 +12,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:prettier/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
   ],
   "plugins": [
     "react",
@@ -24,5 +25,8 @@
   ],
   "rules": {
     // Place to specify ESLint rules.
+    "@typescript-eslint": "warnings",
+    "react/prop-types": "off",
+    "prettier/prettier": "error"
   }
 }
