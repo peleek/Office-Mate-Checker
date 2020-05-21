@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { TextField, makeStyles, Grid, Button, CircularProgress } from '@material-ui/core';
+import { makeStyles, Grid, Button, CircularProgress } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Alert from '@material-ui/lab/Alert';
+import { CustomTextField } from '../components/CustomTextField';
 
 const REGISTER_USER_MUTATION = gql`
 	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -66,7 +67,7 @@ export const Register = () => {
 	};
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
-		// update(proxy, result) {},
+		//  update(proxy, result) {},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
 
@@ -92,64 +93,26 @@ export const Register = () => {
 		addUser();
 	};
 
-	const getErrorMessage = (errorArray: Array<string>) => {
-		return errorArray.length ? errorArray?.reduce((prev, curr) => `${prev} ${curr}`) : '';
-	};
-
 	const styles = useStyles();
 
 	return (
 		<form noValidate autoComplete="off" onSubmit={onSubmit}>
 			<Grid container className={styles.root} direction="column" alignItems="center" justify="center">
 				<Grid item>
-					<TextField
-						error={!!errors.username.length}
-						helperText={getErrorMessage(errors.username)}
-						variant="outlined"
-						name="username"
+					<CustomTextField errorsArray={errors.username} onChange={onChange} label="Username" />
+				</Grid>
+				<Grid item>
+					<CustomTextField errorsArray={errors.password} onChange={onChange} label="Password" />
+				</Grid>
+				<Grid item>
+					<CustomTextField
+						errorsArray={errors.confirmPassword}
 						onChange={onChange}
-						required
-						id="standard-required"
-						label="Username"
+						label="Confirm Password"
 					/>
 				</Grid>
 				<Grid item>
-					<TextField
-						error={!!errors.password.length}
-						helperText={getErrorMessage(errors.password)}
-						variant="outlined"
-						type="password"
-						name="password"
-						onChange={onChange}
-						required
-						id="standard-required"
-						label="Password"
-					/>
-				</Grid>
-				<Grid item>
-					<TextField
-						error={!!errors.confirmPassword.length}
-						helperText={getErrorMessage(errors.confirmPassword)}
-						variant="outlined"
-						type="password"
-						name="confirmPassword"
-						onChange={onChange}
-						required
-						id="standard-required"
-						label="Confirm password"
-					/>
-				</Grid>
-				<Grid item>
-					<TextField
-						error={!!errors.email.length}
-						helperText={getErrorMessage(errors.email)}
-						variant="outlined"
-						name="email"
-						onChange={onChange}
-						required
-						id="standard-required"
-						label="Email"
-					/>
+					<CustomTextField errorsArray={errors.email} onChange={onChange} label="Email" />
 				</Grid>
 				{loading ? (
 					<CircularProgress />
