@@ -17,7 +17,9 @@ export const UsersResolvers = {
     Mutation: {
         async login(_, { username, password }) {
             const errors = validateLoginInput(username, password);
-            if (Object.keys(errors)) {
+            const areThereAnyErrors = Object.values(errors).some(el => el.length);
+
+            if (areThereAnyErrors) {
                 throw new UserInputError('Errors', {
                     errors
                 })
@@ -26,12 +28,12 @@ export const UsersResolvers = {
             const user = await UserModel.findOne({ username });
 
             if (!user) {
-                throw new UserInputError('Errors', { errors: ['Wrong credentials'] })
+                throw new UserInputError('Errors', { errors: { username: ['Wrong credentials'] } })
             }
 
             const match = await bcrypt.compare(password, user.password);
             if (!match) {
-                throw new UserInputError('Errors', { errors: ['Wrong credentials'] })
+                throw new UserInputError('Errors', { errors: { password: ['Wrong credentials'] } })
             }
 
             const token = generateToken(user);

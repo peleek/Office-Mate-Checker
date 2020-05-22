@@ -2,16 +2,17 @@ import { TextField } from '@material-ui/core';
 import React from 'react';
 
 const getErrorMessage = (errorArray: Array<string>) => {
-	return errorArray.length ? errorArray?.reduce((prev, curr) => `${prev} ${curr}`) : '';
+	return errorArray.length ? errorArray?.reduce((prev, curr) => `${prev} ${curr}`) : ' ';
 };
 
 type Props = {
 	errorsArray: string[];
 	label: string;
 	onChange: (e) => void;
+	isPassword?: boolean;
 };
 
-export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange }) => {
+export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange, isPassword }) => {
 	return (
 		<TextField
 			error={!!errorsArray.length}
@@ -23,6 +24,7 @@ export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange 
 				.join('')}
 			onChange={onChange}
 			required
+			type={isPassword ? 'password' : 'text'}
 			id="standard-required"
 			label={label}
 		/>

@@ -40,14 +40,15 @@ export const validateRegisterInput = (
 
 export const validateLoginInput = (username: string, password: string) => {
     const errors = {
-        username: [] as Array<string>
+        username: [] as Array<string>,
+        password: [] as Array<string>
     }
 
     if (username.trim() === '') {
         errors.username.push(`Username can't be empty.`)
     }
     if (password.trim() === '') {
-        errors.username.push(`Password can't be empty.`)
+        errors.password.push(`Password can't be empty.`)
     }
     return errors;
 }

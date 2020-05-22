@@ -35,13 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const emptyErrors = {
-	username: [],
-	email: [],
-	password: [],
-	confirmPassword: [],
-	server: [],
-};
+const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
 
 export const Register = () => {
 	const [formValues, setFormValues] = useState({
@@ -102,10 +96,11 @@ export const Register = () => {
 					<CustomTextField errorsArray={errors.username} onChange={onChange} label="Username" />
 				</Grid>
 				<Grid item>
-					<CustomTextField errorsArray={errors.password} onChange={onChange} label="Password" />
+					<CustomTextField isPassword errorsArray={errors.password} onChange={onChange} label="Password" />
 				</Grid>
 				<Grid item>
 					<CustomTextField
+						isPassword
 						errorsArray={errors.confirmPassword}
 						onChange={onChange}
 						label="Confirm Password"
