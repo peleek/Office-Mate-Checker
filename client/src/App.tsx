@@ -20,3 +20,5 @@ export const App = () => {
 		</Router>
 	);
 };
+
+console.log('test')
