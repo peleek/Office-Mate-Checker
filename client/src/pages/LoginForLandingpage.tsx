@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Login = () => {
+export const LoginForLandingpage = () => {
 	const classes = useStyles();
 
 	return (

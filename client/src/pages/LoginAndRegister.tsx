@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Login } from './Login';
+import { LoginForLandingpage } from './LoginForLandingpage';
 import '../homepage.css';
 
 const photo = require('../media/homepage-light-photo.jpg');
@@ -10,7 +10,7 @@ export const LoginAndRegister = () => {
 		<div className="ui-container">
 			<Grid className="login-form" container>
 				<Grid item xs={12} sm={4}>
-					<Login />
+					<LoginForLandingpage />
 				</Grid>
 				<Grid item xs={12} sm={8}>
 					<div className="homepage-photo">
