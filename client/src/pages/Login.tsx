@@ -1,28 +1,9 @@
 import React, { useState } from 'react';
-import { makeStyles, Grid, Button, CircularProgress } from '@material-ui/core';
-import gql from 'graphql-tag';
+import { Grid, makeStyles, Button, CircularProgress } from '@material-ui/core';
 import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
-
-const REGISTER_USER_MUTATION = gql`
-	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
-		register(
-			registerInput: {
-				username: $username
-				email: $email
-				password: $password
-				confirmPassword: $confirmPassword
-			}
-		) {
-			id
-			email
-			username
-			createdAt
-			token
-		}
-	}
-`;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -35,36 +16,44 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
+const LOGIN_USER_MUTATION = gql`
+	mutation login($username: String!, $password: String!) {
+		login(username: $username, password: $password) {
+			id
+			email
+			username
+			createdAt
+			token
+		}
+	}
+`;
 
-export const Register = () => {
+const emptyErrors = {
+	username: [],
+	password: [],
+	server: [],
+};
+
+export const Login = () => {
+	const styles = useStyles();
+
 	const [formValues, setFormValues] = useState({
 		username: '',
-		email: '',
 		password: '',
-		confirmPassword: '',
 	});
 
 	const [errors, setErrors] = useState<{ [key: string]: Array<string> }>({
 		username: [],
-		email: [],
 		password: [],
-		confirmPassword: [],
 		server: [],
 	});
 
-	const onChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
-	};
-
-	const [addUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
-		//  update(proxy, result) {},
+	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
+		update(proxy, result) {
+			console.log(result);
+		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
-
 			if (registerFormErrors) {
 				setErrors({
 					...errors,
@@ -84,10 +73,15 @@ export const Register = () => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		setErrors(emptyErrors);
-		addUser();
+		loginUser();
 	};
 
-	const styles = useStyles();
+	const onChange = (e) => {
+		setFormValues({
+			...formValues,
+			[e.target.name]: e.target.value,
+		});
+	};
 
 	return (
 		<form noValidate autoComplete="off" onSubmit={onSubmit}>
@@ -98,22 +92,12 @@ export const Register = () => {
 				<Grid item>
 					<CustomTextField isPassword errorsArray={errors.password} onChange={onChange} label="Password" />
 				</Grid>
-				<Grid item>
-					<CustomTextField
-						isPassword
-						errorsArray={errors.confirmPassword}
-						onChange={onChange}
-						label="Confirm Password"
-					/>
-				</Grid>
-				<Grid item>
-					<CustomTextField errorsArray={errors.email} onChange={onChange} label="Email" />
-				</Grid>
+
 				{loading ? (
 					<CircularProgress />
 				) : (
 					<Button type="submit" variant="outlined">
-						Register
+						Login
 					</Button>
 				)}
 				{errors.server.length
