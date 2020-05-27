@@ -1,11 +1,11 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-// import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
+import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { Grid, makeStyles, Button, CircularProgress } from '@material-ui/core';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import Alert from '@material-ui/lab/Alert';
+import { CustomTextField } from '../components/CustomTextField';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: '100vh',
 		marginLeft: theme.spacing(7),
 		marginRight: theme.spacing(7),
+
 	},
 	margin: {
 		marginTop: theme.spacing(4),
@@ -25,45 +26,116 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: '300px',
 		fontWeight: 700,
 	},
+	alert: {
+		marginTop: '20px',
+	},
+	label: {
+		marginBottom: theme.spacing(4),
+	},
+	input: {
+		minWidth: '300px',
+	}
 }));
 
+const LOGIN_USER_MUTATION = gql`
+	mutation login($username: String!, $password: String!) {
+		login(username: $username, password: $password) {
+			id
+			email
+			username
+			createdAt
+			token
+		}
+	}
+`;
+
+const emptyErrors = {
+	username: [],
+	password: [],
+	server: [],
+};
+
 export const LoginForLandingpage = () => {
+	const styles = useStyles();
 	const classes = useStyles();
+
+	const [formValues, setFormValues] = useState({
+		username: '',
+		password: '',
+	});
+
+	const [errors, setErrors] = useState<{ [key: string]: Array<string> }>({
+		username: [],
+		password: [],
+		server: [],
+	});
+
+	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
+		update(proxy, result) {
+			console.log(result);
+		},
+		onError(err) {
+			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
+			if (registerFormErrors) {
+				setErrors({
+					...errors,
+					...registerFormErrors,
+				});
+			} else
+				setErrors({
+					...errors,
+					server: ['Internal server error.'],
+				});
+		},
+		variables: {
+			...formValues,
+		},
+	});
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+		setErrors(emptyErrors);
+		loginUser();
+	};
+
+	const onChange = (e) => {
+		setFormValues({
+			...formValues,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+
 
 	return (
 		<form className={classes.paper}>
-			<Typography component="h1" variant="h5">
+			<Typography className={classes.label} component="h1" variant="h5">
 				Sign in
 			</Typography>
-			<TextField
-				error
-				variant="outlined"
-				margin="normal"
-				required
-				fullWidth
-				id="login"
-				label="Login"
-				name="login"
-				autoComplete="login"
-				autoFocus
-				helperText="Fill this field."
+			<CustomTextField
+				// className={classes.input}
+				label="Username"
+				onChange={onChange}
+				errorsArray={errors.username}
 			/>
-			<TextField
-				error
-				variant="outlined"
-				margin="normal"
-				required
-				fullWidth
-				name="password"
+			<CustomTextField
+				// className={classes.input}
 				label="Password"
-				type="password"
-				id="password"
-				autoComplete="current-password"
-				helperText="Fill this field."
+				errorsArray={errors.password}
+				onChange={onChange}
 			/>
-			<Button type="submit" fullWidth variant="contained" color="primary" className={classes.roundButton}>
-				Log in
-			</Button>
+			{loading ? (<CircularProgress />) : (
+				<Button type="submit" fullWidth variant="contained" color="primary" className={classes.roundButton}>
+					Log in
+				</Button>)
+			}
+			{errors.server.length
+				? errors.server.map((el) => (
+					<Alert className={classes.alert} severity="error">
+						{el}
+					</Alert>
+				))
+				: null}
 			<Grid item className={classes.margin}>
 				Don&apos;t have an account?
 				<Link to="/register">Sign Up</Link>
