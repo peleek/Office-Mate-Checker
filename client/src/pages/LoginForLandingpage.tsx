@@ -56,7 +56,6 @@ const emptyErrors = {
 };
 
 export const LoginForLandingpage = () => {
-	const styles = useStyles();
 	const classes = useStyles();
 
 	const [formValues, setFormValues] = useState({
@@ -108,7 +107,7 @@ export const LoginForLandingpage = () => {
 
 
 	return (
-		<form className={classes.paper}>
+		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit}>
 			<Typography className={classes.label} component="h1" variant="h5">
 				Sign in
 			</Typography>
@@ -125,7 +124,7 @@ export const LoginForLandingpage = () => {
 				onChange={onChange}
 			/>
 			{loading ? (<CircularProgress />) : (
-				<Button type="submit" fullWidth variant="contained" color="primary" className={classes.roundButton}>
+				<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
 					Log in
 				</Button>)
 			}
