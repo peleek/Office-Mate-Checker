@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { Grid, makeStyles, Button, CircularProgress } from '@material-ui/core';
@@ -6,6 +6,8 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
+import { AuthContext } from '../context/authContext'
+
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -16,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: '100vh',
 		marginLeft: theme.spacing(7),
 		marginRight: theme.spacing(7),
+		backgroundColor: '#5d5d5a'
 
 	},
 	margin: {
@@ -34,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		minWidth: '300px',
-	}
+		margin: theme.spacing(2),
+	},
 }));
 
 const LOGIN_USER_MUTATION = gql`
@@ -56,6 +60,7 @@ const emptyErrors = {
 };
 
 export const LoginForLandingpage = () => {
+	const { login } = useContext(AuthContext)
 	const classes = useStyles();
 
 	const [formValues, setFormValues] = useState({
@@ -70,8 +75,9 @@ export const LoginForLandingpage = () => {
 	});
 
 	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
-		update(proxy, result) {
-			console.log(result);
+		update(proxy, response) {
+			// console.log(response.data.login);
+			login(response.data.login)
 		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
@@ -104,40 +110,43 @@ export const LoginForLandingpage = () => {
 		});
 	};
 
-
-
 	return (
-		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit}>
-			<Typography className={classes.label} component="h1" variant="h5">
-				Sign in
+		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit} >
+			<Grid container>
+				<Typography className={classes.label} component="h1" variant="h5">
+					Sign in
 			</Typography>
-			<CustomTextField
-				// className={classes.input}
-				label="Username"
-				onChange={onChange}
-				errorsArray={errors.username}
-			/>
-			<CustomTextField
-				// className={classes.input}
-				label="Password"
-				errorsArray={errors.password}
-				onChange={onChange}
-			/>
-			{loading ? (<CircularProgress />) : (
-				<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
-					Log in
-				</Button>)
-			}
-			{errors.server.length
-				? errors.server.map((el) => (
-					<Alert className={classes.alert} severity="error">
-						{el}
-					</Alert>
-				))
-				: null}
-			<Grid item className={classes.margin}>
-				Don&apos;t have an account?
-				<Link to="/register">Sign Up</Link>
+				<CustomTextField
+					styles={classes.input}
+					label="Username"
+					onChange={onChange}
+					errorsArray={errors.username}
+				/>
+				<CustomTextField
+					isPassword
+					styles={classes.input}
+					label="Password"
+					errorsArray={errors.password}
+					onChange={onChange}
+				/>
+				{loading ? (
+					<CircularProgress />
+				) : (
+						<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
+							Login
+						</Button>)
+				}
+				{errors.server.length
+					? errors.server.map((el) => (
+						<Alert className={classes.alert} severity="error">
+							{el}
+						</Alert>
+					))
+					: null}
+				<Grid item className={classes.margin}>
+					Don&apos;t have an account?
+				<Link to="/register"> Sign Up</Link>
+				</Grid>
 			</Grid>
 		</form>
 	);

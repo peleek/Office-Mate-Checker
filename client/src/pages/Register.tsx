@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles, Grid, Button, CircularProgress } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
+import { AuthContext } from '../context/authContext'
 
 const REGISTER_USER_MUTATION = gql`
 	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -38,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
 
 export const Register = () => {
+	const { login } = useContext(AuthContext)
+
 	const [formValues, setFormValues] = useState({
 		username: '',
 		email: '',
@@ -61,7 +64,9 @@ export const Register = () => {
 	};
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
-		//  update(proxy, result) {},
+		update(proxy, response) {
+			login(response.data.register)
+		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
 
@@ -112,16 +117,16 @@ export const Register = () => {
 				{loading ? (
 					<CircularProgress />
 				) : (
-					<Button type="submit" variant="outlined">
-						Register
-					</Button>
-				)}
+						<Button type="submit" variant="outlined">
+							Register
+						</Button>
+					)}
 				{errors.server.length
 					? errors.server.map((el) => (
-							<Alert className={styles.alert} severity="error">
-								{el}
-							</Alert>
-					  ))
+						<Alert className={styles.alert} severity="error">
+							{el}
+						</Alert>
+					))
 					: null}
 			</Grid>
 		</form>
