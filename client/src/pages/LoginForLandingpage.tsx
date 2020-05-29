@@ -112,41 +112,40 @@ export const LoginForLandingpage = () => {
 
 	return (
 		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit} >
-			<Grid container>
-				<Typography className={classes.label} component="h1" variant="h5">
-					Sign in
+
+			<Typography className={classes.label} component="h1" variant="h5">
+				Sign in
 			</Typography>
-				<CustomTextField
-					styles={classes.input}
-					label="Username"
-					onChange={onChange}
-					errorsArray={errors.username}
-				/>
-				<CustomTextField
-					isPassword
-					styles={classes.input}
-					label="Password"
-					errorsArray={errors.password}
-					onChange={onChange}
-				/>
-				{loading ? (
-					<CircularProgress />
-				) : (
-						<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
-							Login
-						</Button>)
-				}
-				{errors.server.length
-					? errors.server.map((el) => (
-						<Alert className={classes.alert} severity="error">
-							{el}
-						</Alert>
-					))
-					: null}
-				<Grid item className={classes.margin}>
-					Don&apos;t have an account?
+			<CustomTextField
+				styles={classes.input}
+				label="Username"
+				onChange={onChange}
+				errorsArray={errors.username}
+			/>
+			<CustomTextField
+				isPassword
+				styles={classes.input}
+				label="Password"
+				errorsArray={errors.password}
+				onChange={onChange}
+			/>
+			{loading ? (
+				<CircularProgress />
+			) : (
+					<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
+						Login
+					</Button>)
+			}
+			{errors.server.length
+				? errors.server.map((el) => (
+					<Alert className={classes.alert} severity="error">
+						{el}
+					</Alert>
+				))
+				: null}
+			<Grid item className={classes.margin}>
+				Don&apos;t have an account?
 				<Link to="/register"> Sign Up</Link>
-				</Grid>
 			</Grid>
 		</form>
 	);
