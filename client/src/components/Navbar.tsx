@@ -5,6 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import { Link } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router';
 
+
 export const NavbarComponent = (props: RouteComponentProps) => {
 	const { location } = props;
 	const [value, setValue] = React.useState(location.pathname);
