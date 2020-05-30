@@ -7,7 +7,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { UserIcon } from './UserIcon'
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box'
-import { Calendar } from '../pages/Calendar';
+import { Calendar } from './calendar/Calendar';
 import { AuthContext } from '../context/authContext';
 
 
@@ -38,7 +38,7 @@ const NavbarComponent = (props: RouteComponentProps) => {
 					flexShrink={1}
 					width="100%"
 				>
-					<Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={classes.boxWidth}>
+					<Tabs value={value === '/' ? '/mycalendar' : value} onChange={handleChange} aria-label="simple tabs example" className={classes.boxWidth}>
 						<Tab label="Check mate calendar" value="/matecalendar" component={Link} to="/matecalendar" />
 						<Tab label="My calendar" value="/mycalendar" component={Link} to="/mycalendar" />
 					</Tabs>
