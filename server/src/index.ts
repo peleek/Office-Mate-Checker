@@ -17,6 +17,6 @@ mongoose.connect(`${process.env["MONGODB"]}`, { useNewUrlParser: true })
         return server.listen({ port: 5000 })
     })
     .then(res => {
-        console.log(`Server running at ${res.url}`)
-    }).catch(err => console.log(err))
+        console.log("\x1b[32m", `Server running at ${res.url}`);
+    }).catch(err => console.log("\x1b[31m", err))
 

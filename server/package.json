@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts",
-    "start:debug": "node --inspect=5858 -r ts-node/register src/index.ts",
+    "start": "node --inspect=5858 -r ts-node/register ./src/index.ts",
     "dev": "nodemon",
     "format": "prettier --write --loglevel=warn 'src/**/*.ts'",
     "lint": "tslint src/**/*.ts"
