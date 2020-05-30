@@ -1,14 +1,20 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, RouteProps } from 'react-router-dom'
 import { AuthContext } from "../context/authContext";
 
-export const AuthRoute = ({ component: Component, ...rest }) => {
-    const { user } = useContext(AuthContext);
+type Props = {
+    component: React.Component | React.FunctionComponent,
+    noAccess?: boolean
+}
 
+export const AuthRoute: React.FC<Props & RouteProps> = ({ component: Component, noAccess, ...rest }) => {
+    const { user } = useContext(AuthContext);
+    const shouldDisplayComponent = noAccess ? user : !user;
     return (
         <Route {...rest}
             render={props =>
-                user ? <Redirect to='/' /> : <Component {...props} />} />
+                shouldDisplayComponent ? <Component {...props} /> : <Redirect to='/' />}
+        />
     )
 }
 
