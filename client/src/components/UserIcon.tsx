@@ -4,11 +4,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { AuthContext } from "../context/authContext";
+type Props = {
+    styles?: string
 
+}
 
-export const UserIcon = () => {
-    const { user } = useContext(AuthContext);
-
+export const UserIcon: React.FC<Props> = ({ styles }) => {
+    const { logout } = useContext(AuthContext);
     //  remains as a gateway for future solutions
     // const [auth, setAuth] = React.useState(true);
 
@@ -24,7 +26,7 @@ export const UserIcon = () => {
     };
 
     const userIcon = () => (
-        <div>
+        <div className={styles} >
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -49,8 +51,8 @@ export const UserIcon = () => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
         </div>)
 
