@@ -10,9 +10,10 @@ type Props = {
 	label: string;
 	onChange: (e) => void;
 	isPassword?: boolean;
+	styles?: string
 };
 
-export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange, isPassword }) => {
+export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange, isPassword, styles }) => {
 	return (
 		<TextField
 			error={!!errorsArray.length}
@@ -27,6 +28,7 @@ export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange,
 			type={isPassword ? 'password' : 'text'}
 			id="standard-required"
 			label={label}
+			className={styles}
 		/>
 	);
 };
