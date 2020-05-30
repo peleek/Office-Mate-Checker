@@ -11,7 +11,6 @@ import { AuthContextProvider } from './context/authContext'
 
 const useStyles = makeStyles((theme) => ({
 	appContainer: {
-		backgroundColor: '#5d5d5a',
 		minWidth: '100%'
 	}
 }));

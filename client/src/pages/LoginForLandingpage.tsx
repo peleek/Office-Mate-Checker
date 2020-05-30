@@ -18,8 +18,6 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: '100vh',
 		marginLeft: theme.spacing(7),
 		marginRight: theme.spacing(7),
-		backgroundColor: '#5d5d5a'
-
 	},
 	margin: {
 		marginTop: theme.spacing(4),
