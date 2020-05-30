@@ -7,6 +7,7 @@ import { Calendar } from './pages/Calendar';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home'
 import { AuthContextProvider } from './context/authContext'
+import { Navbar } from './components/Navbar';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,10 +22,12 @@ export const App = () => {
 		<AuthContextProvider>
 			<Router>
 				<Container className={classes.appContainer}>
+					<Navbar />
 					<Route exact path="/" component={Home} />
 					<AuthRoute exact path="/login" component={Login} />
 					<AuthRoute exact path="/register" component={Register} />
-					<Route exact path="/calendar" component={Calendar} />
+					<Route exact path="/mycalendar" component={Calendar} />
+					<Route exact path="/matecalendar" component={Calendar} />
 				</Container>
 			</Router>
 		</AuthContextProvider>
