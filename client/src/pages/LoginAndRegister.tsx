@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { LoginForLandingpage } from './LoginForLandingpage';
-import { Login } from './Login'
 import '../homepage.css';
 
 
