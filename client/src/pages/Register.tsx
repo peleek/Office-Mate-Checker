@@ -95,7 +95,7 @@ export const Register = () => {
 	const styles = useStyles();
 
 	return (
-		<form noValidate autoComplete="off" onSubmit={onSubmit}>
+		<form noValidate autoComplete="off" onSubmit={onSubmit} >
 			<Grid container className={styles.root} direction="column" alignItems="center" justify="center">
 				<Grid item>
 					<CustomTextField errorsArray={errors.username} onChange={onChange} label="Username" />
