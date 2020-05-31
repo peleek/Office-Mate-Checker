@@ -9,7 +9,7 @@ import { AuthContextProvider } from './context/authContext';
 import { Navbar } from './components/Navbar';
 import { CalendarPage } from './pages/CalendarPage';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	appContainer: {
 		minWidth: '100%',
 	},

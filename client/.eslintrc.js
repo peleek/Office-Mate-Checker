@@ -29,6 +29,9 @@ module.exports = {
 		'prettier/prettier': 'warn',
 		'import/prefer-default-export': "off",
 		'import/no-default-export': "error",
-		'react/jsx-props-no-spreading': "off"
+		'react/jsx-props-no-spreading': "off",
+		'@typescript-eslint/explicit-module-boundary-types': "off",
+		'@typescript-eslint/no-explicit-any': "off",
+		'no-new': "off"
 	}
 };

@@ -7,7 +7,6 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import { UserIcon } from './UserIcon';
-import { Calendar } from './calendar/Calendar';
 import { AuthContext } from '../context/authContext';
 
 const useStyles = makeStyles((theme) => ({
