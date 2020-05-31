@@ -1,11 +1,11 @@
-import { PostsResolvers } from './posts'
-import { UsersResolvers } from './users'
+import { PostsResolvers } from './posts';
+import { UsersResolvers } from './users';
 
 export const resolvers = {
-    Query: {
-        ...PostsResolvers.Query
-    },
-    Mutation: {
-        ...UsersResolvers.Mutation
-    }
-}   
+	Query: {
+		...PostsResolvers.Query,
+	},
+	Mutation: {
+		...UsersResolvers.Mutation,
+	},
+};

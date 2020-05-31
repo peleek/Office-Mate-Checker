@@ -1,26 +1,13 @@
 import { model, Schema } from 'mongoose';
 
-const postSchema = new Schema({
-	body: String,
-	username: String,
-	createdAt: String,
-	comments: [
-		{
-			body: String,
-			username: String,
-			createdAt: String,
-		},
-	],
-	likes: [
-		{
-			username: String,
-			createdAt: String,
-		},
-	],
+const eventSchema = new Schema({
+	startDate: String,
+	endDate: String,
+	name: String,
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'users',
 	},
 });
 
-export const PostModel = model('Post', postSchema);
+export const EventModel = model('Event', eventSchema);
