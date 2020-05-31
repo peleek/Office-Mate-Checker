@@ -76,7 +76,7 @@ export const UsersResolvers = {
 			const newUser = new UserModel({
 				email,
 				username,
-				hashedPassword,
+				password: hashedPassword,
 				createdAt: new Date().toISOString(),
 			});
 
