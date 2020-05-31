@@ -10,7 +10,7 @@ type Props = {
 	label: string;
 	onChange: (e) => void;
 	isPassword?: boolean;
-	styles?: string
+	styles?: string;
 };
 
 export const CustomTextField: React.FC<Props> = ({ errorsArray, label, onChange, isPassword, styles }) => {

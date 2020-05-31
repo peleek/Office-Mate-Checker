@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import { LoginForLandingpage } from './LoginForLandingpage';
 import '../homepage.css';
 
-
 const photo = require('../media/homepage-light-photo.jpg');
 
 export const LoginAndRegister = () => {

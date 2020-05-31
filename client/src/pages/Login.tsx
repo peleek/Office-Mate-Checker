@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
-import { AuthContext } from '../context/authContext'
+import { AuthContext } from '../context/authContext';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,7 +36,7 @@ const emptyErrors = {
 };
 
 export const Login = () => {
-	const context = useContext(AuthContext)
+	const context = useContext(AuthContext);
 	const styles = useStyles();
 
 	const [formValues, setFormValues] = useState({
@@ -53,7 +53,7 @@ export const Login = () => {
 	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
 		update(proxy, { data: { login: userData } }) {
 			console.log(userData);
-			context.login(userData)
+			context.login(userData);
 		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
@@ -99,16 +99,16 @@ export const Login = () => {
 				{loading ? (
 					<CircularProgress />
 				) : (
-						<Button type="submit" variant="outlined">
-							Login
-						</Button>
-					)}
+					<Button type="submit" variant="outlined">
+						Login
+					</Button>
+				)}
 				{errors.server.length
 					? errors.server.map((el) => (
-						<Alert className={styles.alert} severity="error">
-							{el}
-						</Alert>
-					))
+							<Alert className={styles.alert} severity="error">
+								{el}
+							</Alert>
+					  ))
 					: null}
 			</Grid>
 		</form>

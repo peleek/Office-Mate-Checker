@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
-import { AuthContext } from '../context/authContext'
+import { AuthContext } from '../context/authContext';
 
 const REGISTER_USER_MUTATION = gql`
 	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
 
 export const Register = () => {
-	const { login } = useContext(AuthContext)
+	const { login } = useContext(AuthContext);
 
 	const [formValues, setFormValues] = useState({
 		username: '',
@@ -65,7 +65,7 @@ export const Register = () => {
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
 		update(proxy, response) {
-			login(response.data.register)
+			login(response.data.register);
 		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
@@ -95,7 +95,7 @@ export const Register = () => {
 	const styles = useStyles();
 
 	return (
-		<form noValidate autoComplete="off" onSubmit={onSubmit} >
+		<form noValidate autoComplete="off" onSubmit={onSubmit}>
 			<Grid container className={styles.root} direction="column" alignItems="center" justify="center">
 				<Grid item>
 					<CustomTextField errorsArray={errors.username} onChange={onChange} label="Username" />
@@ -117,16 +117,16 @@ export const Register = () => {
 				{loading ? (
 					<CircularProgress />
 				) : (
-						<Button type="submit" variant="outlined">
-							Register
-						</Button>
-					)}
+					<Button type="submit" variant="outlined">
+						Register
+					</Button>
+				)}
 				{errors.server.length
 					? errors.server.map((el) => (
-						<Alert className={styles.alert} severity="error">
-							{el}
-						</Alert>
-					))
+							<Alert className={styles.alert} severity="error">
+								{el}
+							</Alert>
+					  ))
 					: null}
 			</Grid>
 		</form>

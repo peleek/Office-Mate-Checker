@@ -6,8 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
-import { AuthContext } from '../context/authContext'
-
+import { AuthContext } from '../context/authContext';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -58,7 +57,7 @@ const emptyErrors = {
 };
 
 export const LoginForLandingpage = () => {
-	const { login } = useContext(AuthContext)
+	const { login } = useContext(AuthContext);
 	const classes = useStyles();
 
 	const [formValues, setFormValues] = useState({
@@ -75,7 +74,7 @@ export const LoginForLandingpage = () => {
 	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
 		update(proxy, response) {
 			// console.log(response.data.login);
-			login(response.data.login)
+			login(response.data.login);
 		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
@@ -109,8 +108,7 @@ export const LoginForLandingpage = () => {
 	};
 
 	return (
-		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit} >
-
+		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit}>
 			<Typography className={classes.label} component="h1" variant="h5">
 				Sign in
 			</Typography>
@@ -130,16 +128,16 @@ export const LoginForLandingpage = () => {
 			{loading ? (
 				<CircularProgress />
 			) : (
-					<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
-						Login
-					</Button>)
-			}
+				<Button type="submit" fullWidth variant="outlined" color="primary" className={classes.roundButton}>
+					Login
+				</Button>
+			)}
 			{errors.server.length
 				? errors.server.map((el) => (
-					<Alert className={classes.alert} severity="error">
-						{el}
-					</Alert>
-				))
+						<Alert className={classes.alert} severity="error">
+							{el}
+						</Alert>
+				  ))
 				: null}
 			<Grid item className={classes.margin}>
 				Don&apos;t have an account?

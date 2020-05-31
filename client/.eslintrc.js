@@ -8,7 +8,6 @@ module.exports = {
 		'plugin:react/recommended',
 		'plugin:@typescript-eslint/eslint-recommended',
 		'airbnb-typescript-prettier',
-
 	],
 	'globals': {
 		'Atomics': 'readonly',
@@ -30,5 +29,6 @@ module.exports = {
 		'prettier/prettier': 'warn',
 		'import/prefer-default-export': "off",
 		'import/no-default-export': "error",
+		'react/jsx-props-no-spreading': "off"
 	}
 };

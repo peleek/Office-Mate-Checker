@@ -4,20 +4,19 @@ import { Container, makeStyles } from '@material-ui/core';
 import { Register } from './pages/Register';
 import { AuthRoute } from './pages/AuthRoute';
 import { Login } from './pages/Login';
-import { Home } from './pages/Home'
-import { AuthContextProvider } from './context/authContext'
+import { Home } from './pages/Home';
+import { AuthContextProvider } from './context/authContext';
 import { Navbar } from './components/Navbar';
 import { CalendarPage } from './pages/CalendarPage';
 
-
 const useStyles = makeStyles((theme) => ({
 	appContainer: {
-		minWidth: '100%'
-	}
+		minWidth: '100%',
+	},
 }));
 
 export const App = () => {
-	const classes = useStyles()
+	const classes = useStyles();
 	return (
 		<AuthContextProvider>
 			<Router>
