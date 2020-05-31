@@ -52,7 +52,6 @@ export const Login = () => {
 
 	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
 		update(proxy, { data: { login: userData } }) {
-			console.log(userData);
 			context.login(userData);
 		},
 		onError(err) {

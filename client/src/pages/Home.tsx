@@ -4,7 +4,7 @@ import { AuthContext } from '../context/authContext';
 import { LoginAndRegister } from './LoginAndRegister';
 
 export const Home = () => {
-	const { user, logout } = useContext(AuthContext);
+	const { user } = useContext(AuthContext);
 
 	const pageContent = user ? <Redirect to="/mycalendar" /> : <LoginAndRegister />;
 
