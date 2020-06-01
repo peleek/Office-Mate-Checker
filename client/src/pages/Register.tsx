@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(2),
 		},
 	},
+	margin: {
+		marginTop: theme.spacing(4),
+	},
 	alert: {
 		marginTop: '20px',
 	},
@@ -38,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
 
-export const Register = () => {
+export const Register = ({ handleFormChange }) => {
 	const { login } = useContext(AuthContext);
 
 	const [formValues, setFormValues] = useState({
@@ -117,18 +120,24 @@ export const Register = () => {
 				{loading ? (
 					<CircularProgress />
 				) : (
-					<Button type="submit" variant="outlined">
-						Register
-					</Button>
-				)}
+						<Button type="submit" variant="outlined">
+							Register
+						</Button>
+					)}
 				{errors.server.length
 					? errors.server.map((el) => (
-							<Alert className={styles.alert} severity="error">
-								{el}
-							</Alert>
-					  ))
+						<Alert className={styles.alert} severity="error">
+							{el}
+						</Alert>
+					))
 					: null}
+				<Grid item className={styles.margin}>
+					You have an account?
+		{/* <Link to="/register"> Sign Up</Link> */}
+					<button type='button' onClick={handleFormChange}> Sign In</button>
+				</Grid>
 			</Grid>
 		</form>
 	);
 };
+
