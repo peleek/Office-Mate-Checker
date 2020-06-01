@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container, makeStyles } from '@material-ui/core';
-import { Register } from './pages/Register';
 import { AuthRoute } from './pages/AuthRoute';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
@@ -24,7 +23,6 @@ export const App = () => {
 					<Navbar />
 					<Route exact path="/" component={Home} />
 					<AuthRoute exact path="/login" component={Login} />
-					<AuthRoute exact path="/register" component={Register} />
 					<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
 					<AuthRoute noAccess exact path="/matecalendar" component={CalendarPage} />
 				</Container>

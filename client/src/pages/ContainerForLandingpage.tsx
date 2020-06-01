@@ -47,7 +47,7 @@ export const ContainerForLandingpage = () => {
 	const { login } = useContext(AuthContext);
 	const classes = useStyles();
 
-	const [checked, setChecked] = useState(false);
+	const [checked, setChecked] = useState(true);
 	const handleFormChange = () => {
 		setChecked(!checked);
 	};
@@ -110,14 +110,11 @@ export const ContainerForLandingpage = () => {
 
 	return (
 		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit}>
-
-			<div className={classes.container}>
-				<Fade in={checked}>
-					<Paper elevation={4} className={classes.paper}>
-						{renderForm()}
-					</Paper>
-				</Fade>
-			</div>
+			<Fade in={checked}>
+				<span>
+					{renderForm()}
+				</span>
+			</Fade>
 		</form>
 	);
 };
