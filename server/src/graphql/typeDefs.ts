@@ -23,12 +23,30 @@ export const typeDefs = gql`
 		email: String!
 	}
 
+	input EventInput {
+		startDate: String!
+		endDate: String!
+		description: String!
+		token: String
+	}
+
+	type Event {
+		startDate: String!
+		endDate: String!
+		description: String!
+	}
+
+	type Status {
+		description: String!
+	}
+
 	type Query {
-		getPosts: [Post]
+		getUserEvents(token: String): [Event]
 	}
 
 	type Mutation {
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
+		addEvent(eventInput: [EventInput]): Status!
 	}
 `;
