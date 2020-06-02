@@ -29,6 +29,7 @@ module.exports = {
 		'prettier/prettier': 'warn',
 		'import/prefer-default-export': "off",
 		'import/no-default-export': "error",
+		'jsx-a11y/click-events-have-key-events': "off",
 		'react/jsx-props-no-spreading': "off",
 		'@typescript-eslint/explicit-module-boundary-types': "off",
 		'@typescript-eslint/no-explicit-any': "off",
