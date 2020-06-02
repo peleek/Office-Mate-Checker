@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { makeStyles, Grid, Button, CircularProgress } from '@material-ui/core';
+import { makeStyles, Grid, Button, CircularProgress, Typography } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Alert from '@material-ui/lab/Alert';
@@ -37,11 +37,25 @@ const useStyles = makeStyles((theme) => ({
 	alert: {
 		marginTop: '20px',
 	},
-	span: {
+	buttonSpan: {
 		textDecoration: 'underline',
 		cursor: 'pointer',
-		color: '#069'
-	}
+		color: '#069',
+		background: 'none',
+		border: 'none',
+	},
+	label: {
+		marginBottom: theme.spacing(4),
+	},
+	roundButton: {
+		borderRadius: '20px',
+		width: '300px',
+		fontWeight: 700,
+	},
+	input: {
+		minWidth: '300px',
+		margin: theme.spacing(2),
+	},
 }));
 
 const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
@@ -92,7 +106,6 @@ export const Register = ({ handleFormChange }) => {
 		variables: {
 			...formValues,
 		},
-
 	});
 
 	const onSubmit = (e) => {
@@ -106,14 +119,30 @@ export const Register = ({ handleFormChange }) => {
 	return (
 		<form noValidate autoComplete="off" onSubmit={onSubmit}>
 			<Grid container className={styles.root} direction="column" alignItems="center" justify="center">
+				<Typography className={styles.label} component="h1" variant="h5">
+					Sign up
+				</Typography>
 				<Grid item>
-					<CustomTextField errorsArray={errors.username} onChange={onChange} label="Username" />
-				</Grid>
-				<Grid item>
-					<CustomTextField isPassword errorsArray={errors.password} onChange={onChange} label="Password" />
+					<CustomTextField
+						styles={styles.input}
+						errorsArray={errors.username}
+						onChange={onChange}
+						label="Username"
+					/>
 				</Grid>
 				<Grid item>
 					<CustomTextField
+						styles={styles.input}
+						isPassword
+						errorsArray={errors.password}
+						onChange={onChange}
+						label="Password"
+					/>
+				</Grid>
+
+				<Grid item>
+					<CustomTextField
+						styles={styles.input}
 						isPassword
 						errorsArray={errors.confirmPassword}
 						onChange={onChange}
@@ -121,29 +150,36 @@ export const Register = ({ handleFormChange }) => {
 					/>
 				</Grid>
 				<Grid item>
-					<CustomTextField errorsArray={errors.email} onChange={onChange} label="Email" />
+					<CustomTextField
+						styles={styles.input}
+						errorsArray={errors.email}
+						onChange={onChange}
+						label="Email"
+					/>
 				</Grid>
 				{loading ? (
 					<CircularProgress />
 				) : (
-						<Button type="submit" variant="outlined">
-							Register
-						</Button>
-					)}
+					<Button className={styles.roundButton} type="submit" color="primary" variant="outlined">
+						Register
+					</Button>
+				)}
 				{errors.server.length
 					? errors.server.map((el) => (
-						<Alert className={styles.alert} severity="error">
-							{el}
-						</Alert>
-					))
+							<Alert className={styles.alert} severity="error">
+								{el}
+							</Alert>
+					  ))
 					: null}
 				<Grid item className={styles.margin}>
 					You have an account?
-		{/* <Link to="/register"> Sign Up</Link> */}
-					<span className={styles.span} type='button' onClick={handleFormChange}> Sign In</span>
+					{/* <Link to="/register"> Sign Up</Link> */}
+					<button type="button" className={styles.buttonSpan} onClick={handleFormChange}>
+						{' '}
+						Sign In
+					</button>
 				</Grid>
 			</Grid>
 		</form>
 	);
 };
-

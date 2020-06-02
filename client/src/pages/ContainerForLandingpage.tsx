@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 // import { Link } from 'react-router-dom';
-import { makeStyles, Fade, Paper } from '@material-ui/core';
+import { makeStyles, Fade } from '@material-ui/core';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { AuthContext } from '../context/authContext';
@@ -101,20 +101,20 @@ export const ContainerForLandingpage = () => {
 
 	const renderForm = () => {
 		return checked ? (
-			<LoginForLandingpage setInputChange={setInputChange} loading={loading} errors={errors} handleFormChange={handleFormChange} />
+			<Fade in={checked}>
+				<LoginForLandingpage setInputChange={setInputChange} loading={loading} errors={errors} handleFormChange={handleFormChange} />
+			</Fade>
 		) : (
-				<Register handleFormChange={handleFormChange} />
+				<Fade in={!checked}>
+					<Register handleFormChange={handleFormChange} />
+				</Fade>
 			)
 	}
 
 
 	return (
 		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit}>
-			<Fade in={checked}>
-				<span>
-					{renderForm()}
-				</span>
-			</Fade>
+			{renderForm()}
 		</form>
 	);
 };
