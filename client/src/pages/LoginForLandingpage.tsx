@@ -64,7 +64,7 @@ export const LoginForLandingpage = ({ setInputChange, errors, loading, handleFor
 			<Grid item className={classes.margin}>
 				Don&apos;t have an account?
 		{/* <Link to="/register"> Sign Up</Link> */}
-				<button type='button' onClick={handleFormChange}> Sign Up</button>
+				<span type='button' onClick={handleFormChange}> Sign Up</span>
 			</Grid>
 		</>
 	);

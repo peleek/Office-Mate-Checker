@@ -37,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
 	alert: {
 		marginTop: '20px',
 	},
+	span: {
+		textDecoration: 'underline',
+		cursor: 'pointer',
+		color: '#069'
+	}
 }));
 
 const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
@@ -87,6 +92,7 @@ export const Register = ({ handleFormChange }) => {
 		variables: {
 			...formValues,
 		},
+
 	});
 
 	const onSubmit = (e) => {
@@ -134,7 +140,7 @@ export const Register = ({ handleFormChange }) => {
 				<Grid item className={styles.margin}>
 					You have an account?
 		{/* <Link to="/register"> Sign Up</Link> */}
-					<button type='button' onClick={handleFormChange}> Sign In</button>
+					<span className={styles.span} type='button' onClick={handleFormChange}> Sign In</span>
 				</Grid>
 			</Grid>
 		</form>

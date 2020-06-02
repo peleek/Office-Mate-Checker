@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	boxWidth: {
 		width: '100%',
-	},
+	}
 }));
 
 const NavbarComponent = (props: RouteComponentProps) => {
