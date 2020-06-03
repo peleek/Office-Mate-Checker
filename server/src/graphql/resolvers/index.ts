@@ -1,11 +1,13 @@
-import { PostsResolvers } from './posts';
+import { EventsResolvers } from './events';
 import { UsersResolvers } from './users';
 
 export const resolvers = {
 	Query: {
-		...PostsResolvers.Query,
+		...EventsResolvers.Query,
 	},
+
 	Mutation: {
 		...UsersResolvers.Mutation,
+		...EventsResolvers.Mutation,
 	},
 };
