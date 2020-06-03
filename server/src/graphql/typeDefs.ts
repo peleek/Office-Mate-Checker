@@ -33,7 +33,7 @@ export const typeDefs = gql`
 	type Event {
 		startDate: String!
 		endDate: String!
-		description: String!
+		title: String!
 	}
 
 	type Status {
@@ -41,12 +41,12 @@ export const typeDefs = gql`
 	}
 
 	type Query {
-		getUserEvents(token: String): [Event]
+		getUserEvents: [Event]
 	}
 
 	type Mutation {
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
-		addEvent(eventInput: [EventInput]): Status!
+		updateEvents(eventInput: [EventInput]): Status!
 	}
 `;
