@@ -1,12 +1,12 @@
 import { model, Schema } from 'mongoose';
 
-const eventSchema = new Schema({
+export const eventSchema = new Schema({
 	startDate: String,
 	endDate: String,
 	name: String,
-	user: {
+	creator: {
 		type: Schema.Types.ObjectId,
-		ref: 'users',
+		ref: 'User',
 	},
 });
 

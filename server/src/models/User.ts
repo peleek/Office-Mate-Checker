@@ -12,6 +12,12 @@ const userSchema = new Schema({
 	password: String,
 	email: String,
 	createdAt: String,
+	events: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Event',
+		},
+	],
 });
 
 export const UserModel = model<IUserSchema, Model<IUserSchema>>('User', userSchema);
