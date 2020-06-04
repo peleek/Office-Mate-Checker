@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -12,21 +12,33 @@ import { getEventsQuery, addEventsMutation } from './getEventsFromServer';
 
 export const Calendar: React.FC = () => {
 	const calendarRef: React.Ref<any> = useRef(null);
+	const [initialEvents, setInitialEvents] = useState([
+		{ start: Date.now().toString(), end: Date.now().toString(), title: 'Busy' },
+	]);
+
 	const [addToServer, { loading: addEventsLoading, data: addEventsData }] = useMutation(addEventsMutation);
+	const { loading, error, data } = useQuery(getEventsQuery);
 
 	const saveToServer = () => {
 		const events = getConvertedData(calendarRef.current.calendar);
 		addToServer({
-			eventsInput: events,
+			variables: {
+				events,
+			},
 		});
 	};
 
-	const { loading, error, data } = useQuery(getEventsQuery);
+	useEffect(() => {
+		if (!loading) {
+			setInitialEvents(data.getUserEvents);
+			console.log(data.getUserEvents);
+		}
+	}, [loading]);
 
 	useEffect(() => {
-		console.log(data);
-		console.log(addEventsData);
-	}, [data, addEventsData]);
+		window.calendar = calendarRef;
+	}, []);
+
 	return (
 		<>
 			{loading ? (
@@ -34,7 +46,7 @@ export const Calendar: React.FC = () => {
 			) : (
 				<FullCalendar
 					ref={calendarRef}
-					events={data.getUserEvents}
+					events={initialEvents}
 					defaultView="timeGridWeek"
 					plugins={[timeGridPlugin, interactionPlugin]}
 					editable

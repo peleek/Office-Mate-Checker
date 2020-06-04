@@ -5,13 +5,14 @@ export const getEventsQuery = gql`
 		getUserEvents {
 			startDate
 			endDate
+			title
 		}
 	}
 `;
 
 export const addEventsMutation = gql`
-	mutation updateEvents($eventInput: [any!]) {
-		updateEvents(eventInput: $eventInput) {
+	mutation updateEvents($events: [EventInput!]) {
+		updateEvents(events: $events) {
 			description
 		}
 	}

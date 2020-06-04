@@ -1,5 +1,5 @@
 export type Event = {
-	startDate: Date;
-	endDate: Date;
+	startDate: string;
+	endDate: string;
 	title: string;
 };

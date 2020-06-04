@@ -26,8 +26,7 @@ export const typeDefs = gql`
 	input EventInput {
 		startDate: String!
 		endDate: String!
-		description: String!
-		token: String
+		title: String!
 	}
 
 	type Event {
@@ -47,6 +46,6 @@ export const typeDefs = gql`
 	type Mutation {
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
-		updateEvents(eventInput: [EventInput]): Status!
+		updateEvents(events: [EventInput]): Status!
 	}
 `;

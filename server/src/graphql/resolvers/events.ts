@@ -15,10 +15,11 @@ export const EventsResolvers = {
 	},
 
 	Mutation: {
-		async updateEvents(_, { eventInput }, context) {
+		async updateEvents(_, { events }, context) {
 			try {
 				const user = checkAuth(context);
-				eventInput.forEach(async (el) => {
+				await EventModel.deleteMany({ creator: user.id });
+				events.forEach(async (el) => {
 					const event = new EventModel({
 						startDate: el.startDate,
 						endDate: el.endDate,
