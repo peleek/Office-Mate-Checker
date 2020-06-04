@@ -6,8 +6,8 @@ export const getConvertedData = (calendar: Calendar): Array<Event> => {
 		const { title } = calendar.state.eventStore.defs[el.defId];
 		const { start, end } = el.range;
 		return {
-			startDate: start.toDateString(),
-			endDate: end.toDateString(),
+			start,
+			end,
 			title,
 		};
 	});

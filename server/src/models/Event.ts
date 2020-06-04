@@ -1,8 +1,8 @@
 import { model, Schema } from 'mongoose';
 
 export const eventSchema = new Schema({
-	startDate: String,
-	endDate: String,
+	start: String,
+	end: String,
 	title: String,
 	creator: {
 		type: Schema.Types.ObjectId,

@@ -24,14 +24,14 @@ export const typeDefs = gql`
 	}
 
 	input EventInput {
-		startDate: String!
-		endDate: String!
+		start: String!
+		end: String!
 		title: String!
 	}
 
 	type Event {
-		startDate: String!
-		endDate: String!
+		start: String!
+		end: String!
 		title: String!
 	}
 

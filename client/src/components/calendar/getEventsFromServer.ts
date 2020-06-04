@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 export const getEventsQuery = gql`
 	query events {
 		getUserEvents {
-			startDate
-			endDate
+			start
+			end
 			title
 		}
 	}

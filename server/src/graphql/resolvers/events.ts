@@ -21,8 +21,8 @@ export const EventsResolvers = {
 				await EventModel.deleteMany({ creator: user.id });
 				events.forEach(async (el) => {
 					const event = new EventModel({
-						startDate: el.startDate,
-						endDate: el.endDate,
+						start: el.start,
+						end: el.end,
 						title: el.title,
 						creator: user.id,
 					});

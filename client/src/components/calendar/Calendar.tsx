@@ -12,8 +12,9 @@ import { getEventsQuery, addEventsMutation } from './getEventsFromServer';
 
 export const Calendar: React.FC = () => {
 	const calendarRef: React.Ref<any> = useRef(null);
-	const [initialEvents, setInitialEvents] = useState([
-		{ start: Date.now().toString(), end: Date.now().toString(), title: 'Busy' },
+	const [events, setEvents] = useState([
+		{ title: 'event 1', start: Date.now(), end: Date.now() },
+		{ title: 'event 2', start: Date.now(), end: Date.now() },
 	]);
 
 	const [addToServer, { loading: addEventsLoading, data: addEventsData }] = useMutation(addEventsMutation);
@@ -30,7 +31,7 @@ export const Calendar: React.FC = () => {
 
 	useEffect(() => {
 		if (!loading) {
-			setInitialEvents(data.getUserEvents);
+			setEvents(data.getUserEvents);
 			console.log(data.getUserEvents);
 		}
 	}, [loading]);
@@ -46,7 +47,7 @@ export const Calendar: React.FC = () => {
 			) : (
 				<FullCalendar
 					ref={calendarRef}
-					events={initialEvents}
+					events={events}
 					defaultView="timeGridWeek"
 					plugins={[timeGridPlugin, interactionPlugin]}
 					editable
