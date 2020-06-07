@@ -1,5 +1,5 @@
 export type Event = {
-	start: string;
-	end: string;
+	start: number;
+	end: number;
 	title: string;
 };

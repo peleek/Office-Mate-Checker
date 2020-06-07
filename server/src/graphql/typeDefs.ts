@@ -24,14 +24,14 @@ export const typeDefs = gql`
 	}
 
 	input EventInput {
-		start: String!
-		end: String!
+		start: Float!
+		end: Float!
 		title: String!
 	}
 
 	type Event {
-		start: String!
-		end: String!
+		start: Float!
+		end: Float!
 		title: String!
 	}
 

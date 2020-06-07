@@ -6,8 +6,8 @@ export const getConvertedData = (calendar: Calendar): Array<Event> => {
 		const { title } = calendar.state.eventStore.defs[el.defId];
 		const { start, end } = el.range;
 		return {
-			start,
-			end,
+			start: start.getTime() + start.getTimezoneOffset() * 1000 * 60,
+			end: end.getTime() + start.getTimezoneOffset() * 1000 * 60,
 			title,
 		};
 	});
