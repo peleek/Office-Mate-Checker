@@ -1,17 +1,10 @@
 import { EventModel } from '../../models/Event';
 import { checkAuth } from '../../util/checkAuth';
 
-type EventInput = {
-	startDate: string;
-	endDate: string;
-	description: string;
-	token: string;
-};
-
 export const EventsResolvers = {
 	Query: {
-		async getUserEvents(_, { token }, context) {
-			const user = checkAuth(context, token);
+		async getUserEvents(_, {}, context) {
+			const user = checkAuth(context);
 			try {
 				const events = await EventModel.find({ creator: user.id });
 				return events;
@@ -22,14 +15,15 @@ export const EventsResolvers = {
 	},
 
 	Mutation: {
-		async addEvent(_, { eventInput }, context) {
+		async updateEvents(_, { events }, context) {
 			try {
-				const user = checkAuth(context, eventInput[0].token);
-				eventInput.forEach(async (el) => {
+				const user = checkAuth(context);
+				await EventModel.deleteMany({ creator: user.id });
+				events.forEach(async (el) => {
 					const event = new EventModel({
-						startDate: el.startDate,
-						endDate: el.endDate,
-						description: el.description,
+						start: el.start,
+						end: el.end,
+						title: el.title,
 						creator: user.id,
 					});
 					await event.save();

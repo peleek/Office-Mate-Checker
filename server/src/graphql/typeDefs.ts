@@ -24,16 +24,15 @@ export const typeDefs = gql`
 	}
 
 	input EventInput {
-		startDate: String!
-		endDate: String!
-		description: String!
-		token: String
+		start: Float!
+		end: Float!
+		title: String!
 	}
 
 	type Event {
-		startDate: String!
-		endDate: String!
-		description: String!
+		start: Float!
+		end: Float!
+		title: String!
 	}
 
 	type Status {
@@ -41,12 +40,12 @@ export const typeDefs = gql`
 	}
 
 	type Query {
-		getUserEvents(token: String): [Event]
+		getUserEvents: [Event]
 	}
 
 	type Mutation {
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
-		addEvent(eventInput: [EventInput]): Status!
+		updateEvents(events: [EventInput]): Status!
 	}
 `;

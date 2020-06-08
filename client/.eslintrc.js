@@ -33,6 +33,7 @@ module.exports = {
 		'react/jsx-props-no-spreading': "off",
 		'@typescript-eslint/explicit-module-boundary-types': "off",
 		'@typescript-eslint/no-explicit-any': "off",
-		'no-new': "off"
+		'no-new': "off",
+		'react-hooks/exhaustive-deps': "off",
 	}
 };
