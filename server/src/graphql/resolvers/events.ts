@@ -1,12 +1,17 @@
 import { EventModel } from '../../models/Event';
 import { checkAuth } from '../../util/checkAuth';
+import { UserModel } from '../../models/User';
 
 export const EventsResolvers = {
 	Query: {
-		async getUserEvents(_, {}, context) {
+		async getUserEvents(_, { username }, context) {
 			const user = checkAuth(context);
 			try {
-				const events = await EventModel.find({ creator: user.id });
+				let events = null;
+				if (username) {
+					const foundUser = await UserModel.findOne({ username });
+					events = foundUser ? await EventModel.find({ creator: foundUser.id }) : [];
+				} else events = await EventModel.find({ creator: user.id });
 				return events;
 			} catch (err) {
 				throw new Error(err);
