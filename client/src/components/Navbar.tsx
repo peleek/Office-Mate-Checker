@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { Searchbar } from './Searchbar';
+import { Searchbar } from './Searchbar/Searchbar';
 import { UserIcon } from './UserIcon';
 import { AuthContext } from '../context/authContext';
 

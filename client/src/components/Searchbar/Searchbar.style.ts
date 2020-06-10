@@ -1,10 +1,6 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+export const useSearchbarStyles = makeStyles((theme) => ({
 	search: {
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
@@ -45,25 +41,3 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-
-export const Searchbar = () => {
-	const classes = useStyles();
-
-	return (
-		<Box display="flex" alignItems="center" width="100%" flexShrink={1}>
-			<div className={classes.search}>
-				<div className={classes.searchIcon}>
-					<SearchIcon />
-				</div>
-				<InputBase
-					placeholder="Search mate…"
-					classes={{
-						root: classes.inputRoot,
-						input: classes.inputInput,
-					}}
-					inputProps={{ 'aria-label': 'search' }}
-				/>
-			</div>
-		</Box>
-	);
-};
