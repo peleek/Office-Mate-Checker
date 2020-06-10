@@ -40,7 +40,7 @@ export const typeDefs = gql`
 	}
 
 	type Query {
-		getUserEvents(username: String!): [Event]
+		getUserEvents(username: String): [Event]
 		getUsers(usernamePart: String!): [String!]
 	}
 
