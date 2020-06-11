@@ -43,7 +43,7 @@ const NavbarComponent = (props: RouteComponentProps) => {
 				<Box display="flex" p={1} className={classes.boxWidth}>
 					<Box flexShrink={1} width="100%">
 						<Tabs
-							value={value === '/' ? '/mycalendar' : value}
+							value={value === '/' ? '/mycalendar' : location.pathname}
 							onChange={handleChange}
 							aria-label="simple tabs example"
 							className={classes.boxWidth}
