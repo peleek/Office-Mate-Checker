@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/timegrid/main.css';
 import { Button, CircularProgress } from '@material-ui/core';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { getConvertedData } from './getConvertedData';
 import { getEventsQuery, addEventsMutation } from './getEventsFromServer';
 
@@ -15,7 +15,7 @@ export const Calendar: React.FC = () => {
 	const [initialEvents, setInitialEvents] = useState();
 	const { name } = useParams();
 	const [addToServer, { loading: addEventsLoading }] = useMutation(addEventsMutation);
-	const { loading, data } = useQuery(getEventsQuery, { variables: { username: name?.substring(1, name.length) } });
+	const [getEvents, { loading, data }] = useLazyQuery(getEventsQuery);
 
 	const saveToServer = () => {
 		const events = getConvertedData(calendarRef.current.calendar);
@@ -27,10 +27,16 @@ export const Calendar: React.FC = () => {
 	};
 
 	useEffect(() => {
+		console.log(name);
+		getEvents({ variables: { username: name?.substring(1, name.length) } });
+	}, [name]);
+
+	useEffect(() => {
+		console.log(loading);
 		if (!loading) {
-			setInitialEvents(data.getUserEvents);
+			setInitialEvents(data?.getUserEvents);
 		}
-	}, [loading]);
+	}, [loading, data]);
 
 	return (
 		<>

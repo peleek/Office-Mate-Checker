@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import Box from '@material-ui/core/Box';
 import { useLazyQuery } from '@apollo/react-hooks';
 import TextField from '@material-ui/core/TextField';
@@ -8,15 +8,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSearchbarStyles } from './Searchbar.style';
 import { getUsersQuery } from './queries/getUsersQuery';
 
-interface CountryType {
-	name: string;
-}
-
-const SearchbarComponent = (props: RouteComponentProps) => {
+const SearchbarComponent: React.FC<RouteComponentProps> = ({ history }) => {
 	const classes = useSearchbarStyles();
 	const [value, setValue] = useState('');
 	const [open, setOpen] = useState(false);
-	const [options, setOptions] = useState<CountryType[]>([]);
+	const [options, setOptions] = useState<string[]>([]);
 
 	const [getUsers, { data, loading }] = useLazyQuery(getUsersQuery);
 
@@ -34,8 +30,8 @@ const SearchbarComponent = (props: RouteComponentProps) => {
 		if (data) setOptions(data.getUsers);
 	}, [data]);
 
-	const handleUserChange = (e: React.ChangeEvent<{}>, name: string) => {
-		props.history.push(`/matecalendar:${name}`);
+	const handleUserChange = (_, name: string) => {
+		history.push(`${name ? `/matecalendar:${name}` : `/matecalendar`}`);
 	};
 
 	return (

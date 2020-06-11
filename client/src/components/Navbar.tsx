@@ -37,13 +37,15 @@ const NavbarComponent = (props: RouteComponentProps) => {
 		return location.pathname !== '/mycalendar' && <Searchbar />;
 	};
 
+	const getTrimmedPathname = (pathname: string) => pathname.split(':')[0];
+
 	return (
 		user && (
 			<AppBar position="static">
 				<Box display="flex" p={1} className={classes.boxWidth}>
 					<Box flexShrink={1} width="100%">
 						<Tabs
-							value={value === '/' ? '/mycalendar' : location.pathname}
+							value={value === '/' ? '/mycalendar' : getTrimmedPathname(location.pathname)}
 							onChange={handleChange}
 							aria-label="simple tabs example"
 							className={classes.boxWidth}
