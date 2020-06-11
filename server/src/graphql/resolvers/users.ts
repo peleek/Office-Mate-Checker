@@ -4,6 +4,7 @@ import { UserInputError } from 'apollo-server';
 
 import { UserModel, IUserSchema } from '../../models/User';
 import { validateRegisterInput, validateLoginInput } from '../../util/validators';
+import { checkAuth } from '../../util/checkAuth';
 
 const generateToken = (user: IUserSchema) => {
 	return jwt.sign(
@@ -18,6 +19,18 @@ const generateToken = (user: IUserSchema) => {
 };
 
 export const UsersResolvers = {
+	Query: {
+		async getUsers(_, { usernamePart }, context) {
+			checkAuth(context);
+			try {
+				const foundUsers = await UserModel.find({ username: { $regex: usernamePart, $options: 'i' } });
+				return foundUsers.map((el) => el.username);
+			} catch (err) {
+				throw new Error(err);
+			}
+		},
+	},
+
 	Mutation: {
 		async login(_, { username, password }) {
 			const errors = validateLoginInput(username, password);

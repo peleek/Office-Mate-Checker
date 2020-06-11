@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { Searchbar } from './Searchbar';
+import { Searchbar } from './Searchbar/Searchbar';
 import { UserIcon } from './UserIcon';
 import { AuthContext } from '../context/authContext';
 
@@ -43,7 +43,7 @@ const NavbarComponent = (props: RouteComponentProps) => {
 				<Box display="flex" p={1} className={classes.boxWidth}>
 					<Box flexShrink={1} width="100%">
 						<Tabs
-							value={value === '/' ? '/mycalendar' : value}
+							value={value === '/' ? '/mycalendar' : location.pathname}
 							onChange={handleChange}
 							aria-label="simple tabs example"
 							className={classes.boxWidth}
