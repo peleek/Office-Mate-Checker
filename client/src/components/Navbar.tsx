@@ -34,7 +34,7 @@ const NavbarComponent = (props: RouteComponentProps) => {
 	};
 
 	const renderSearchbar = () => {
-		return location.pathname === '/matecalendar' && <Searchbar />;
+		return location.pathname !== '/mycalendar' && <Searchbar />;
 	};
 
 	return (

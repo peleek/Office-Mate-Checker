@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router';
 import Box from '@material-ui/core/Box';
 import { useLazyQuery } from '@apollo/react-hooks';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +12,7 @@ interface CountryType {
 	name: string;
 }
 
-export const Searchbar = () => {
+const SearchbarComponent = (props: RouteComponentProps) => {
 	const classes = useSearchbarStyles();
 	const [value, setValue] = useState('');
 	const [open, setOpen] = useState(false);
@@ -33,12 +34,17 @@ export const Searchbar = () => {
 		if (data) setOptions(data.getUsers);
 	}, [data]);
 
+	const handleUserChange = (e: React.ChangeEvent<{}>, name: string) => {
+		props.history.push(`/matecalendar:${name}`);
+	};
+
 	return (
 		<Box display="flex" alignItems="center" width="100%" flexShrink={1}>
 			<div>
 				<Autocomplete
 					className={classes.root}
 					open={open}
+					onChange={(e, name) => handleUserChange(e, name)}
 					onOpen={() => {
 						setOpen(true);
 					}}
@@ -71,3 +77,5 @@ export const Searchbar = () => {
 		</Box>
 	);
 };
+
+export const Searchbar = withRouter(SearchbarComponent);

@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { AuthContextProvider } from './context/authContext';
 import { Navbar } from './components/Navbar';
 import { CalendarPage } from './pages/CalendarPage';
+import { NoCalendarInformation } from './components/NoCalendarInformation';
 
 const useStyles = makeStyles(() => ({
 	appContainer: {
@@ -26,7 +27,8 @@ export const App = () => {
 					<AuthRoute exact path="/login" component={Login} />
 					<AuthRoute exact path="/register" component={Register} />
 					<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
-					<AuthRoute noAccess exact path="/matecalendar" component={CalendarPage} />
+					<AuthRoute noAccess exact path="/matecalendar" component={NoCalendarInformation} />
+					<AuthRoute noAccess exact path="/matecalendar:name" component={CalendarPage} />
 				</Container>
 			</Router>
 		</AuthContextProvider>
