@@ -14,6 +14,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
+    "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "gql": "^1.1.2",
     "graphql": "^15.0.0",
@@ -41,15 +42,19 @@
     "eslint-config-airbnb-typescript-prettier": "^2.1.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.12.3",
     "prettier": "^2.0.4",
     "typescript": "^3.8.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "run-p type-check:watch develop",
+    "develop": "parcel ./src/index.html",
+    "build": "npm run type-check && parcel build ./src/index.html --public-url '/'",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "yarn run eslint --fix src/**/*.{js,jsx,ts,tsx}"
+    "lint": "yarn run eslint --fix src/**/*.{js,jsx,ts,tsx}",
+    "type-check:watch": "tsc --noEmit --watch"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import { Searchbar } from './Searchbar/Searchbar';
 import { UserIcon } from './UserIcon';
 import { AuthContext } from '../context/authContext';
 
@@ -15,7 +16,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	boxWidth: {
 		width: '100%',
-	}
+	},
+	username: {
+		fontSize: '1.1rem',
+		fontWeight: 500,
+	},
 }));
 
 const NavbarComponent = (props: RouteComponentProps) => {
@@ -28,13 +33,17 @@ const NavbarComponent = (props: RouteComponentProps) => {
 		setValue(newValue);
 	};
 
+	const renderSearchbar = () => {
+		return location.pathname === '/matecalendar' && <Searchbar />;
+	};
+
 	return (
 		user && (
 			<AppBar position="static">
 				<Box display="flex" p={1} className={classes.boxWidth}>
 					<Box flexShrink={1} width="100%">
 						<Tabs
-							value={value === '/' ? '/mycalendar' : value}
+							value={value === '/' ? '/mycalendar' : location.pathname}
 							onChange={handleChange}
 							aria-label="simple tabs example"
 							className={classes.boxWidth}
@@ -46,7 +55,11 @@ const NavbarComponent = (props: RouteComponentProps) => {
 								to="/matecalendar"
 							/>
 							<Tab label="My calendar" value="/mycalendar" component={Link} to="/mycalendar" />
+							{renderSearchbar()}
 						</Tabs>
+					</Box>
+					<Box display="flex" alignItems="center" className={classes.username}>
+						{user.username}
 					</Box>
 					<Box flexShrink={0} justifyContent="flex-end">
 						<UserIcon styles={classes.user} />
