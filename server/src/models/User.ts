@@ -5,6 +5,7 @@ export interface IUserSchema extends Document {
 	password: string;
 	email: string;
 	createdAt: string;
+	organization: string;
 }
 
 const userSchema = new Schema({
@@ -12,6 +13,10 @@ const userSchema = new Schema({
 	password: String,
 	email: String,
 	createdAt: String,
+	organization: {
+		type: Schema.Types.ObjectId,
+		ref: 'Organization',
+	},
 });
 
 export const UserModel = model<IUserSchema, Model<IUserSchema>>('User', userSchema);
