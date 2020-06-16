@@ -42,7 +42,7 @@ export const getOrganization = async (organizationCode, organizationName): Promi
 				organizationName,
 				organizationCode: organizationCodeString,
 			}),
-			errors: null,
+			errors,
 		};
 	}
 

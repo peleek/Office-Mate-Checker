@@ -96,8 +96,9 @@ export const UsersResolvers = {
 				});
 			}
 			const organizationResult = await getOrganization(organizationCode, organizationName);
+			const areThereAnyOrganizationErrors = Object.values(organizationResult.errors).some((el) => el.length);
 
-			if (organizationResult.errors) {
+			if (areThereAnyOrganizationErrors) {
 				throw new UserInputError(`Problem with organization`, {
 					errors: {
 						...organizationResult.errors,
@@ -105,6 +106,7 @@ export const UsersResolvers = {
 				});
 			}
 			const organization = await organizationResult.organization.save();
+
 			const newUser = new UserModel({
 				email,
 				username,
