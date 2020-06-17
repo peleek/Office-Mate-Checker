@@ -1,34 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { makeStyles, Grid, Button, CircularProgress, Typography } from '@material-ui/core';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
-import { AuthContext } from '../context/authContext';
-
-const REGISTER_USER_MUTATION = gql`
-	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
-		register(
-			registerInput: {
-				username: $username
-				email: $email
-				password: $password
-				confirmPassword: $confirmPassword
-			}
-		) {
-			id
-			email
-			username
-			createdAt
-			token
-		}
-	}
-`;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& .MuiTextField-root': {
-			margin: theme.spacing(2),
+			margin: theme.spacing(0.6),
 		},
 	},
 	margin: {
@@ -45,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 		border: 'none',
 	},
 	label: {
-		marginBottom: theme.spacing(4),
+		marginBottom: theme.spacing(3),
+		marginTop: theme.spacing(2),
 	},
 	roundButton: {
 		borderRadius: '20px',
@@ -58,66 +37,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const emptyErrors = { username: [], email: [], password: [], confirmPassword: [], server: [] };
-
-export const Register = ({ handleFormChange }) => {
-	const { login } = useContext(AuthContext);
-
-	const [formValues, setFormValues] = useState({
-		username: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-	});
-
-	const [errors, setErrors] = useState<{ [key: string]: Array<string> }>({
-		username: [],
-		email: [],
-		password: [],
-		confirmPassword: [],
-		server: [],
-	});
-
-	const onChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
-	};
-
-	const [addUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
-		update(proxy, response) {
-			login(response.data.register);
-		},
-		onError(err) {
-			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
-
-			if (registerFormErrors) {
-				setErrors({
-					...errors,
-					...registerFormErrors,
-				});
-			} else
-				setErrors({
-					...errors,
-					server: ['Internal server error.'],
-				});
-		},
-		variables: {
-			...formValues,
-		},
-	});
-
-	const onSubmit = (e) => {
-		e.preventDefault();
-		setErrors(emptyErrors);
-		addUser();
-	};
-
+export const RegisterForm = ({ handleFormChange, errors, loading, setInputChange, onRegisterSubmit }) => {
 	const styles = useStyles();
 
 	return (
-		<form noValidate autoComplete="off" onSubmit={onSubmit}>
+		<form noValidate autoComplete="off" onSubmit={onRegisterSubmit}>
 			<Grid container className={styles.root} direction="column" alignItems="center" justify="center">
 				<Typography className={styles.label} component="h1" variant="h5">
 					Sign up
@@ -126,7 +50,7 @@ export const Register = ({ handleFormChange }) => {
 					<CustomTextField
 						styles={styles.input}
 						errorsArray={errors.username}
-						onChange={onChange}
+						onChange={setInputChange}
 						label="Username"
 					/>
 				</Grid>
@@ -135,7 +59,7 @@ export const Register = ({ handleFormChange }) => {
 						styles={styles.input}
 						isPassword
 						errorsArray={errors.password}
-						onChange={onChange}
+						onChange={setInputChange}
 						label="Password"
 					/>
 				</Grid>
@@ -145,7 +69,7 @@ export const Register = ({ handleFormChange }) => {
 						styles={styles.input}
 						isPassword
 						errorsArray={errors.confirmPassword}
-						onChange={onChange}
+						onChange={setInputChange}
 						label="Confirm Password"
 					/>
 				</Grid>
@@ -153,7 +77,7 @@ export const Register = ({ handleFormChange }) => {
 					<CustomTextField
 						styles={styles.input}
 						errorsArray={errors.email}
-						onChange={onChange}
+						onChange={setInputChange}
 						label="Email"
 					/>
 				</Grid>
@@ -172,8 +96,7 @@ export const Register = ({ handleFormChange }) => {
 					  ))
 					: null}
 				<Grid item className={styles.margin}>
-					You have an account?
-					{/* <Link to="/register"> Sign Up</Link> */}
+					Already have an account?
 					<button type="button" className={styles.buttonSpan} onClick={handleFormChange}>
 						{' '}
 						Sign In

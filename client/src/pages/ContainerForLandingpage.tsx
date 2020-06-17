@@ -1,120 +1,27 @@
-import React, { useState, useContext } from 'react';
-// import { Link } from 'react-router-dom';
-import { makeStyles, Fade } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import { AuthContext } from '../context/authContext';
-import { LoginForLandingpage } from './LoginForLandingpage'
-import { Register } from './Register'
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { ContainerForLandingpage } from './FormContainer';
+import '../homepage.css';
 
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'center',
-		minHeight: '100vh',
-		marginLeft: theme.spacing(7),
-		marginRight: theme.spacing(7),
-	},
-	margin: {
-		marginTop: theme.spacing(4),
-	},
-	container: {
-		display: 'flex',
-	}
-}));
+/* eslint-disable-next-line */
+const photo = require('../media/homepage-light-photo.jpg');
 
-const LOGIN_USER_MUTATION = gql`
-	mutation login($username: String!, $password: String!) {
-		login(username: $username, password: $password) {
-			id
-			email
-			username
-			createdAt
-			token
-		}
-	}
-`;
-
-const emptyErrors = {
-	username: [],
-	password: [],
-	server: [],
-};
-
-export const ContainerForLandingpage = () => {
-	const { login } = useContext(AuthContext);
-	const classes = useStyles();
-
-	const [checked, setChecked] = useState(true);
-	const handleFormChange = () => {
-		setChecked(!checked);
-	};
-
-	const [formValues, setFormValues] = useState({
-		username: '',
-		password: '',
-	});
-
-	const [errors, setErrors] = useState<{ [key: string]: Array<string> }>({
-		username: [],
-		password: [],
-		server: [],
-	});
-
-	const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION, {
-		update(proxy, response) {
-			// console.log(response.data.login);
-			login(response.data.login);
-		},
-		onError(err) {
-			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
-			if (registerFormErrors) {
-				setErrors({
-					...errors,
-					...registerFormErrors,
-				});
-			} else
-				setErrors({
-					...errors,
-					server: ['Internal server error.'],
-				});
-		},
-		variables: {
-			...formValues,
-		},
-	});
-
-	const onSubmit = (e) => {
-		e.preventDefault();
-		setErrors(emptyErrors);
-		loginUser();
-	};
-
-	const setInputChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
-	};
-
-	const renderForm = () => {
-		return checked ? (
-			<Fade in={checked}>
-				<LoginForLandingpage setInputChange={setInputChange} loading={loading} errors={errors} handleFormChange={handleFormChange} />
-			</Fade>
-		) : (
-				<Fade in={!checked}>
-					<Register handleFormChange={handleFormChange} />
-				</Fade>
-			)
-	}
-
-
+export const LoginAndRegister: React.FC = () => {
 	return (
-		<form noValidate autoComplete="off" className={classes.paper} onSubmit={onSubmit}>
-			{renderForm()}
-		</form>
+		<div className="ui-container">
+			<Grid className="login-form" container>
+				<Grid item xs={12} sm={4}>
+					<ContainerForLandingpage />
+				</Grid>
+				<Grid item xs={12} sm={8}>
+					<div className="homepage-photo">
+						<img className="image" alt="schedule" src={photo} />
+						<div className="img-text">
+							<h1>Do you want to know when your mate is free?</h1>
+						</div>
+					</div>
+				</Grid>
+			</Grid>
+		</div>
 	);
 };
