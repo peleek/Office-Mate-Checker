@@ -21,8 +21,8 @@
 }
 
 .image:hover {
-	filter: blur(1px);
-	-webkit-filter: blur(1px);
+	filter: blur(0px);
+	-webkit-filter: blur(0px);
 }
 
 .img-text {
