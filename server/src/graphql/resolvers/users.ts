@@ -1,10 +1,11 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { UserInputError } from 'apollo-server';
 
+import { UserInputError } from 'apollo-server';
 import { UserModel, IUserSchema } from '../../models/User';
 import { validateRegisterInput, validateLoginInput } from '../../util/validators';
 import { checkAuth } from '../../util/checkAuth';
+import { getOrganization } from '../../util/getOrganization';
 
 const generateToken = (user: IUserSchema) => {
 	return jwt.sign(
@@ -64,9 +65,18 @@ export const UsersResolvers = {
 				token,
 			};
 		},
-		async register(_, { registerInput: { username, email, password, confirmPassword } }) {
-			// TODO: validate user data
-			const errors = validateRegisterInput(username, email, password, confirmPassword);
+		async register(
+			_,
+			{ registerInput: { username, email, password, confirmPassword, organizationCode, organizationName } }
+		) {
+			const errors = validateRegisterInput(
+				username,
+				email,
+				password,
+				confirmPassword,
+				organizationCode,
+				organizationName
+			);
 			const areThereAnyErrors = Object.values(errors).some((el) => el.length);
 
 			if (areThereAnyErrors) {
@@ -74,7 +84,6 @@ export const UsersResolvers = {
 					errors,
 				});
 			}
-			// TODO: make sure that user doesn't already exist
 
 			const hashedPassword = await bcrypt.hash(password, 12);
 			const user = await UserModel.findOne({ username });
@@ -86,11 +95,24 @@ export const UsersResolvers = {
 					},
 				});
 			}
+			const organizationResult = await getOrganization(organizationCode, organizationName);
+			const areThereAnyOrganizationErrors = Object.values(organizationResult.errors).some((el) => el.length);
+
+			if (areThereAnyOrganizationErrors) {
+				throw new UserInputError(`Problem with organization`, {
+					errors: {
+						...organizationResult.errors,
+					},
+				});
+			}
+			const organization = await organizationResult.organization.save();
+
 			const newUser = new UserModel({
 				email,
 				username,
 				password: hashedPassword,
 				createdAt: new Date().toISOString(),
+				organization: organization.id,
 			});
 
 			const res = await newUser.save();
@@ -103,6 +125,8 @@ export const UsersResolvers = {
 				id: res.id,
 				createdAt: res.createdAt,
 				token,
+				organizationName: organization.organizationName,
+				organizationCode: organization.organizationCode,
 			};
 		},
 	},

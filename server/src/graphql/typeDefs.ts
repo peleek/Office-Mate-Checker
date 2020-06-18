@@ -14,6 +14,8 @@ export const typeDefs = gql`
 		token: String!
 		username: String!
 		createdAt: String!
+		organizationCode: String
+		organizationName: String
 	}
 
 	input RegisterInput {
@@ -21,6 +23,8 @@ export const typeDefs = gql`
 		password: String!
 		confirmPassword: String!
 		email: String!
+		organizationCode: String
+		organizationName: String
 	}
 
 	input EventInput {
