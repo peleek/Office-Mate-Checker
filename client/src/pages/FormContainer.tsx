@@ -58,6 +58,8 @@ export const ContainerForLandingpage = () => {
 			email: '',
 			password: '',
 			confirmPassword: '',
+			organizationCode: '',
+			organizationName: '',
 		},
 	});
 

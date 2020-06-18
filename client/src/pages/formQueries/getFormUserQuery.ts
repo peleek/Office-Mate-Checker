@@ -1,13 +1,22 @@
 import gql from 'graphql-tag';
 
 export const REGISTER_USER_MUTATION = gql`
-	mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
+	mutation register(
+		$username: String!
+		$email: String!
+		$password: String!
+		$confirmPassword: String!
+		$organizationName: String
+		$organizationCode: String
+	) {
 		register(
 			registerInput: {
 				username: $username
 				email: $email
 				password: $password
 				confirmPassword: $confirmPassword
+				organizationName: $organizationName
+				organizationCode: $organizationCode
 			}
 		) {
 			id
@@ -15,6 +24,8 @@ export const REGISTER_USER_MUTATION = gql`
 			username
 			createdAt
 			token
+			organizationName
+			organizationCode
 		}
 	}
 `;
