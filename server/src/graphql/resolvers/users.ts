@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { UserInputError } from 'apollo-server';
 import { UserModel, IUserSchema } from '../../models/User';
-import { validateRegisterInput, validateLoginInput } from '../../util/validators';
+import { validateRegisterInput, validateLoginInput, validateChangedUserData } from '../../util/validators';
 import { checkAuth } from '../../util/checkAuth';
 import { getOrganization } from '../../util/getOrganization';
 
@@ -65,6 +65,20 @@ export const UsersResolvers = {
 				token,
 			};
 		},
+		async changeUserData(_, { data: { username, email } }, context) {
+			const errors = validateChangedUserData(username, email);
+			const currentUser = checkAuth(context);
+
+			const areThereAnyErrors = Object.values(errors).some((el) => el.length);
+			if (areThereAnyErrors) {
+				throw new UserInputError('Errors during user data change', {
+					errors,
+				});
+			}
+
+			await UserModel.updateOne({ username: currentUser.id }, { $set: { username, email } });
+		},
+
 		async register(
 			_,
 			{ registerInput: { username, email, password, confirmPassword, organizationCode, organizationName } }

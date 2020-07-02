@@ -1,3 +1,5 @@
+const emailRegex = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
+
 export const validateRegisterInput = (
 	username: string,
 	email: string,
@@ -20,12 +22,8 @@ export const validateRegisterInput = (
 
 	if (email.trim() === '') {
 		errors.email.push(`Email can't be empty.`);
-	} else {
-		const emailRegex = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
-
-		if (!email.match(emailRegex)) {
-			errors.email.push(`Email is not valid.`);
-		}
+	} else if (!email.match(emailRegex)) {
+		errors.email.push(`Email is not valid.`);
 	}
 
 	if (password.trim() === '') {
@@ -60,6 +58,25 @@ export const validateLoginInput = (username: string, password: string) => {
 	}
 	if (password.trim() === '') {
 		errors.password.push(`Password can't be empty.`);
+	}
+
+	return errors;
+};
+
+export const validateChangedUserData = (username: string, email: string) => {
+	const errors = {
+		username: [] as Array<string>,
+		email: [] as Array<string>,
+	};
+
+	if (username.trim() === '') {
+		errors.username.push(`Username can't be empty.`);
+	}
+
+	if (email.trim() === '') {
+		errors.email.push(`Email can't be empty.`);
+	} else if (!email.match(emailRegex)) {
+		errors.email.push(`Email is not valid.`);
 	}
 
 	return errors;
