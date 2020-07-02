@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { makeStyles, Grid, Typography, TextField, Button } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { AuthContext } from '../context/authContext';
 // import { UploadIcon } from '../media/upload-icon';
 
@@ -98,7 +99,7 @@ export function UserSettings() {
 								<Typography className={styless.inputLabel} variant="h6">
 									Email
 								</Typography>
-								<TextField defaultValue={user.username} variant="outlined" className={styless.input} />
+								<TextField defaultValue={user.email} variant="outlined" className={styless.input} />
 								<p className={styless.changeButton}>Change</p>
 							</Grid>
 							<Grid item className={styless.inputBox}>
@@ -114,10 +115,21 @@ export function UserSettings() {
 								</Typography>
 								<TextField variant="outlined" className={styless.input} />
 							</Grid>
-							<Grid item className={styless.inputBox}>
-								<Typography className={styless.inputLabel} variant="h6">
-									Delete your account
-								</Typography>
+							<Grid container item className={styless.inputBox}>
+								<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+									<Typography className={styless.inputLabel} variant="h6">
+										Delete your account
+									</Typography>
+
+									<Button
+										variant="contained"
+										color="secondary"
+										// className={classes.button}
+										startIcon={<DeleteIcon />}
+									>
+										Delete
+									</Button>
+								</div>
 								<b>Your account will be permanently deleted</b>
 							</Grid>
 							<Button variant="contained" color="primary" size="large">
