@@ -38,9 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const RegisterForm = ({ handleFormChange, errors, loading, setInputChange, onRegisterSubmit }) => {
-	const [checked, setChecked] = useState(true);
-	const handleSwitchChange = () => setChecked(!checked);
-
 	const styles = useStyles();
 
 	return (
