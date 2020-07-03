@@ -5,16 +5,16 @@ export const validateRegisterInput = (
 	email: string,
 	password: string,
 	confirmPassword: string,
-	ogranizationCode: string,
-	ogranizationName: string
+	organizationCode: string,
+	organizationName: string
 ) => {
 	const errors = {
 		username: [] as Array<string>,
 		password: [] as Array<string>,
 		confirmPassword: [] as Array<string>,
 		email: [] as Array<string>,
-		ogranizationName: [] as Array<string>,
-		ogranizationCode: [] as Array<string>,
+		organizationName: [] as Array<string>,
+		organizationCode: [] as Array<string>,
 	};
 	if (username.trim() === '') {
 		errors.username.push(`Username can't be empty.`);
@@ -36,12 +36,12 @@ export const validateRegisterInput = (
 		errors.password.push(`Password should contain at least 10 characters`);
 	}
 
-	if (!ogranizationName && ogranizationCode.trim() === '') {
-		errors.ogranizationCode.push('Organization code is empty.');
+	if (!organizationName && organizationCode.trim() === '') {
+		errors.organizationCode.push('Organization code is empty.');
 	}
 
-	if (!ogranizationCode && ogranizationName.trim() === '') {
-		errors.ogranizationName.push('Organization name is empty.');
+	if (!organizationCode && organizationName.trim() === '') {
+		errors.organizationName.push('Organization name is empty.');
 	}
 
 	return errors;

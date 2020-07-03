@@ -36,10 +36,12 @@ const emptyErrors = {
 		password: [],
 		confirmPassword: [],
 		server: [],
+		organizationName: [],
+		organizationCode: [],
 	},
 };
 
-export const ContainerForLandingpage = () => {
+export const FormContainer = () => {
 	const { login } = useContext(AuthContext);
 	const classes = useStyles();
 
@@ -93,7 +95,6 @@ export const ContainerForLandingpage = () => {
 		},
 		onError(err) {
 			const registerFormErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
-
 			if (registerFormErrors) {
 				setErrors({
 					...errors,
@@ -123,6 +124,7 @@ export const ContainerForLandingpage = () => {
 	const onRegisterSubmit = (e) => {
 		e.preventDefault();
 		setErrors(emptyErrors);
+		console.log(formValues);
 		addUser();
 	};
 
