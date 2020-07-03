@@ -52,5 +52,6 @@ export const typeDefs = gql`
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
 		updateEvents(events: [EventInput]): Status!
+		changeUserData(events: [EventInput]): Status!
 	}
 `;

@@ -76,7 +76,19 @@ export const UsersResolvers = {
 				});
 			}
 
-			await UserModel.updateOne({ username: currentUser.id }, { $set: { username, email } });
+			const existingUser = await UserModel.findOne({ username });
+			const existingEmail = await UserModel.findOne({ email });
+
+			if (existingEmail || existingUser) {
+				throw new UserInputError('errors', {
+					errors: {
+						username: existingUser ? ['User already exists'] : [],
+						email: existingEmail ? ['Email already exists'] : [],
+					},
+				});
+			}
+
+			await UserModel.updateOne({ id: currentUser.id }, { $set: { username, email } });
 		},
 
 		async register(
