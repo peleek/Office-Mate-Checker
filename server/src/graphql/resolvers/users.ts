@@ -65,7 +65,7 @@ export const UsersResolvers = {
 				token,
 			};
 		},
-		async changeUserData(_, { data: { username, email } }, context) {
+		async changeUserData(_, { userData: { username, email } }, context) {
 			const errors = validateChangedUserData(username, email);
 			const currentUser = checkAuth(context);
 
@@ -88,7 +88,10 @@ export const UsersResolvers = {
 				});
 			}
 
-			await UserModel.updateOne({ id: currentUser.id }, { $set: { username, email } });
+			await UserModel.updateOne({ _id: currentUser.id }, { $set: { username, email } });
+			return {
+				description: 'Data changed sucessfully!',
+			};
 		},
 
 		async register(
