@@ -84,11 +84,11 @@ export const UsersResolvers = {
 			const existingUser = (await UserModel.findOne({ username }))?.username;
 			const existingEmail = (await UserModel.findOne({ email }))?.email;
 
-			if (existingEmail || existingUser) {
+			if (existingUser !== currentUser.username || existingEmail !== currentUser.email) {
 				throw new UserInputError('errors', {
 					errors: {
-						username: existingUser && existingUser !== currentUser.username ? ['User already exists'] : [],
-						email: existingEmail && existingEmail !== currentUser.email ? ['Email already exists'] : [],
+						username: existingUser ? ['User already exists'] : [],
+						email: existingEmail ? ['Email already exists'] : [],
 					},
 				});
 			}

@@ -30,7 +30,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 	const [changeUserData, { loading }] = useMutation(USER_DATA_MUTATION, {
 		update(proxy, response) {
 			setSuccessOpen(true);
-			console.log('suc');
+			console.log(response);
 			setTimeout(() => setSuccessOpen(false), 6000);
 		},
 		onError(err) {
