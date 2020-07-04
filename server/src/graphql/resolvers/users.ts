@@ -81,21 +81,21 @@ export const UsersResolvers = {
 				});
 			}
 
-			const existingUser = await UserModel.findOne({ username });
-			const existingEmail = await UserModel.findOne({ email });
+			const existingUser = (await UserModel.findOne({ username }))?.username;
+			const existingEmail = (await UserModel.findOne({ email }))?.email;
 
 			if (existingEmail || existingUser) {
 				throw new UserInputError('errors', {
 					errors: {
-						username: existingUser ? ['User already exists'] : [],
-						email: existingEmail ? ['Email already exists'] : [],
+						username: existingUser && existingUser !== currentUser.username ? ['User already exists'] : [],
+						email: existingEmail && existingEmail !== currentUser.email ? ['Email already exists'] : [],
 					},
 				});
 			}
 
-			await UserModel.updateOne({ _id: currentUser.id }, { $set: { username, email } });
+			const newUser = await UserModel.updateOne({ _id: currentUser.id }, { $set: { username, email } });
 			return {
-				description: 'Data changed sucessfully!',
+				token: generateToken(newUser),
 			};
 		},
 

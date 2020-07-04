@@ -43,6 +43,10 @@ export const typeDefs = gql`
 		description: String!
 	}
 
+	type ChangedDataResponse {
+		token: String!
+	}
+
 	type Query {
 		getUserEvents(username: String): [Event]
 		getUsers(usernamePart: String!): [String!]
@@ -57,7 +61,7 @@ export const typeDefs = gql`
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
 		updateEvents(events: [EventInput]): Status!
-		changeUserData(userData: UserDataInput!): Status!
+		changeUserData(userData: UserDataInput!): ChangedDataResponse!
 		changePassword(currentPassword: String!, newPassword: String!, confirmedNewPassword: String!): Status!
 		deleteUser(currentPassword: String!): Status!
 	}
