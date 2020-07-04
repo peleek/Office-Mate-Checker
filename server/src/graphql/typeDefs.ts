@@ -58,5 +58,7 @@ export const typeDefs = gql`
 		login(username: String!, password: String!): User!
 		updateEvents(events: [EventInput]): Status!
 		changeUserData(userData: UserDataInput!): Status!
+		changePassword(currentPassword: String!, newPassword: String!, confirmedNewPassword: String!): Status!
+		deleteUser(currentPassword: String!): Status!
 	}
 `;

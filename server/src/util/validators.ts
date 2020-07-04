@@ -1,3 +1,5 @@
+import * as bcrypt from 'bcryptjs';
+
 const emailRegex = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
 
 export const validateRegisterInput = (
@@ -77,6 +79,38 @@ export const validateChangedUserData = (username: string, email: string) => {
 		errors.email.push(`Email can't be empty.`);
 	} else if (!email.match(emailRegex)) {
 		errors.email.push(`Email is not valid.`);
+	}
+
+	return errors;
+};
+
+export const validatePasswords = async (userCurrentPassword, currentPassword, newPassword, confirmedNewPassword) => {
+	const errors = {
+		currentPassword: [] as Array<string>,
+		newPassword: [] as Array<string>,
+		confirmedNewPassword: [] as Array<string>,
+	};
+	const isPasswordMatch = await bcrypt.compare(currentPassword, userCurrentPassword);
+
+	if (!isPasswordMatch) {
+		errors.currentPassword.push('Provided current password is not correct.');
+	}
+
+	if (newPassword !== confirmedNewPassword) {
+		errors.currentPassword.push('New passwords are different.');
+	}
+
+	if (!currentPassword.trim() || !newPassword.trim() || !confirmedNewPassword.trim()) {
+		if (!newPassword.trim()) {
+			errors.newPassword.push('New password field is empty.');
+		}
+		if (!confirmedNewPassword.trim()) {
+			errors.confirmedNewPassword.push('Confirm password field is empty.');
+		}
+	}
+
+	if (newPassword.length < 10) {
+		errors.newPassword.push(`Password should contain at least 10 characters`);
 	}
 
 	return errors;

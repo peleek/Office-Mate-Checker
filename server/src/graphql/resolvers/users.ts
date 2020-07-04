@@ -3,7 +3,12 @@ import * as jwt from 'jsonwebtoken';
 
 import { UserInputError } from 'apollo-server';
 import { UserModel, IUserSchema } from '../../models/User';
-import { validateRegisterInput, validateLoginInput, validateChangedUserData } from '../../util/validators';
+import {
+	validateRegisterInput,
+	validateLoginInput,
+	validateChangedUserData,
+	validatePasswords,
+} from '../../util/validators';
 import { checkAuth } from '../../util/checkAuth';
 import { getOrganization } from '../../util/getOrganization';
 
@@ -91,6 +96,50 @@ export const UsersResolvers = {
 			await UserModel.updateOne({ _id: currentUser.id }, { $set: { username, email } });
 			return {
 				description: 'Data changed sucessfully!',
+			};
+		},
+
+		async changePassword(_, { currentPassword, newPassword, confirmedNewPassword }, context) {
+			const user = checkAuth(context);
+			const userCurrentPassword = await (await UserModel.findById(user.id)).password;
+			const errors = await validatePasswords(
+				userCurrentPassword,
+				currentPassword,
+				newPassword,
+				confirmedNewPassword
+			);
+			const areThereAnyErrors = Object.values(errors).some((el) => el.length);
+			if (areThereAnyErrors) {
+				throw new UserInputError('Errors during user password change', {
+					errors,
+				});
+			}
+			const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+			await UserModel.updateOne({ _id: user.id }, { $set: { password: hashedPassword } });
+
+			return {
+				description: 'Password changed successfully!',
+			};
+		},
+
+		async deleteUser(_, { currentPassword }, context) {
+			const user = checkAuth(context);
+			const userCurrentPassword = await (await UserModel.findById(user.id)).password;
+			const isPasswordMatch = await bcrypt.compare(currentPassword, userCurrentPassword);
+
+			if (!isPasswordMatch) {
+				throw new UserInputError('Errors during user deletion', {
+					errors: {
+						currentPassword: `Password doesn't match`,
+					},
+				});
+			}
+
+			await UserModel.deleteOne({ _id: user.id });
+
+			return {
+				description: 'User deleted successfully!',
 			};
 		},
 
