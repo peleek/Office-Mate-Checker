@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router';
 import { AuthContext } from '../context/authContext';
-import { LoginAndRegister } from './ContainerForLandingPage';
+import { LoginAndRegister } from './LoginAndRegister';
 
 export const Home = () => {
 	const { user } = useContext(AuthContext);

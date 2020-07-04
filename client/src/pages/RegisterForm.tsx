@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Grid, Button, CircularProgress, Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { CustomTextField } from '../components/CustomTextField';
+import { SwitchComponent } from '../components/SwitchComponent';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 		border: 'none',
 	},
 	label: {
-		marginBottom: theme.spacing(3),
+		marginBottom: theme.spacing(2),
 		marginTop: theme.spacing(2),
 	},
 	roundButton: {
@@ -33,11 +34,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		minWidth: '300px',
-		margin: theme.spacing(2),
+		margin: theme.spacing(1),
 	},
 }));
 
 export const RegisterForm = ({ handleFormChange, errors, loading, setInputChange, onRegisterSubmit }) => {
+	const [checked, setChecked] = useState(true);
+	console.log(errors);
+	const handleSwitchChange = () => setChecked(!checked);
+
 	const styles = useStyles();
 
 	return (
@@ -63,7 +68,6 @@ export const RegisterForm = ({ handleFormChange, errors, loading, setInputChange
 						label="Password"
 					/>
 				</Grid>
-
 				<Grid item>
 					<CustomTextField
 						styles={styles.input}
@@ -81,6 +85,15 @@ export const RegisterForm = ({ handleFormChange, errors, loading, setInputChange
 						label="Email"
 					/>
 				</Grid>
+				<SwitchComponent handleSwitchChange={handleSwitchChange} checked={checked} />
+				<Grid item>
+					<CustomTextField
+						label={checked ? 'Organization Code' : 'Organization Name'}
+						onChange={setInputChange}
+						errorsArray={checked ? errors.organizationCode : errors.organizationName}
+						styles={styles.input}
+					/>
+				</Grid>
 				{loading ? (
 					<CircularProgress />
 				) : (
@@ -95,6 +108,7 @@ export const RegisterForm = ({ handleFormChange, errors, loading, setInputChange
 							</Alert>
 					  ))
 					: null}
+
 				<Grid item className={styles.margin}>
 					Already have an account?
 					<button type="button" className={styles.buttonSpan} onClick={handleFormChange}>

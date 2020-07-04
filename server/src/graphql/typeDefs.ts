@@ -48,9 +48,17 @@ export const typeDefs = gql`
 		getUsers(usernamePart: String!): [String!]
 	}
 
+	input UserDataInput {
+		username: String!
+		email: String!
+	}
+
 	type Mutation {
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
 		updateEvents(events: [EventInput]): Status!
+		changeUserData(userData: UserDataInput!): Status!
+		changePassword(currentPassword: String!, newPassword: String!, confirmedNewPassword: String!): Status!
+		deleteUser(currentPassword: String!): Status!
 	}
 `;
