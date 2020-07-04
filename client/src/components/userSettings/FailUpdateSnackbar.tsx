@@ -11,13 +11,13 @@ export function FailUpdateSnackbar({ handleClose, openSnackbar, errors }) {
 		<div>
 			<Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose}>
 				<Alert onClose={handleClose} severity="error">
-					{errors.email && <p>{errors.email[0]}</p>}
-					{errors.username && <p>{errors.username[0]}</p>}
+					{errors?.email && <p>{errors.email[0]}</p>}
+					{errors?.username && <p>{errors.username[0]}</p>}
 				</Alert>
 			</Snackbar>
 			<Alert severity="error">
-				{errors.email && <p>{errors.email[0]}</p>}
-				{errors.username && <p>{errors.username[0]}</p>}
+				{errors?.email && <p>{errors.email[0]}</p>}
+				{errors?.username && <p>{errors.username[0]}</p>}
 			</Alert>
 		</div>
 	);
