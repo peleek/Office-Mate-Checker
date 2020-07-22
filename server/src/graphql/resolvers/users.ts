@@ -93,17 +93,19 @@ export const UsersResolvers = {
 			) {
 				throw new UserInputError('errors', {
 					errors: {
-						username: existingUser !== currentUser.username ? ['User already exists'] : [],
-						email: existingEmail !== currentUser.email ? ['Email already exists'] : [],
+						username: existingUser && existingUser !== currentUser.username ? ['User already exists'] : [],
+						email: existingEmail && existingEmail !== currentUser.email ? ['Email already exists'] : [],
 					},
 				});
 			}
 
-			const newUser = await UserModel.updateOne({ _id: currentUser.id }, { $set: { username, email } });
-			const userOrganization = await OrganizationModel.findOne({ _id: newUser.organization.toString() });
+			await UserModel.findOneAndUpdate({ _id: currentUser.id }, { $set: { username, email } });
+			const user = await UserModel.findOne({ _id: currentUser.id });
+			const userOrganization = await OrganizationModel.findOne({ _id: user.organization.toString() });
 
+			const token = generateToken(user, userOrganization);
 			return {
-				token: generateToken(newUser, userOrganization),
+				token,
 			};
 		},
 

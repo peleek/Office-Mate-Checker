@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Typography, TextField, Button, Box } from '@material-ui/core';
 import { useMutation } from '@apollo/react-hooks';
 import { userSetingsStyles } from './userSettings.style';
 import { USER_DATA_MUTATION } from './queries/changeUserData';
 import { SuccessUpdateSnackbar } from './SuccessUpdateSnackbar';
 import { FailUpdateSnackbar } from './FailUpdateSnackbar';
+import { AuthContext } from '../../context/authContext';
 
 const emptyErrors = {
 	username: [],
@@ -18,6 +19,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 	const [openSuccessSnackbar, setSuccessOpen] = useState(false);
 	const [openFailSnackbar, setFailOpen] = useState(false);
 	const [errors, setErrors] = useState(emptyErrors);
+	const {login} = useContext(AuthContext)
 
 	const handleSnackbarClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
 		if (reason === 'clickaway') {
@@ -31,6 +33,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 		update(proxy, response) {
 			setSuccessOpen(true);
 			setTimeout(() => setSuccessOpen(false), 6000);
+			login(response.data.changeUserData)
 		},
 		onError(err) {
 			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
