@@ -1,19 +1,18 @@
 import React, { useState, useContext } from 'react';
-import { Grid, Typography, TextField, Button, Box } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
-import { userSetingsStyles } from './userSettings.style';
+
 import { USER_DATA_MUTATION } from './queries/changeUserData';
-<<<<<<< HEAD
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 
 function Alert(props: AlertProps) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-=======
 import { SuccessUpdateSnackbar } from './SuccessUpdateSnackbar';
 import { FailUpdateSnackbar } from './FailUpdateSnackbar';
 import { AuthContext } from '../../context/authContext';
+import { useMutation } from '@apollo/react-hooks';
+import { Typography, Box, Grid, TextField, Button } from '@material-ui/core';
+import { userSetingsStyles } from './userSettings.style';
 
 const emptyErrors = {
 	username: [],
