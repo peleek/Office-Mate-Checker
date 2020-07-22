@@ -30,7 +30,6 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 	const [changeUserData, { loading }] = useMutation(USER_DATA_MUTATION, {
 		update(proxy, response) {
 			setSuccessOpen(true);
-			console.log(response);
 			setTimeout(() => setSuccessOpen(false), 6000);
 		},
 		onError(err) {
@@ -92,11 +91,16 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 					/>
 				)}
 			</Grid>
-			<Button variant="contained" color="primary" size="large" onClick={() => setPersonalData(!openPersonalData)}>
+			<Button
+				variant="contained"
+				color="primary"
+				size="medium"
+				onClick={() => setPersonalData(!openPersonalData)}
+			>
 				{openPersonalData ? 'Cancel' : 'Edit'}
 			</Button>
 			{openPersonalData && (
-				<Button variant="contained" color="primary" size="large" onClick={onSaveSubmit}>
+				<Button variant="contained" color="primary" size="medium" onClick={onSaveSubmit}>
 					Save
 				</Button>
 			)}
