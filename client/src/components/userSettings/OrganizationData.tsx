@@ -14,7 +14,7 @@ export function OrganizationData({ user }) {
 			<Typography className={styless.inputLabel} variant="h6">
 				Organization code
 			</Typography>
-			<TextField value="sdadas" variant="outlined" className={styless.input} />
+			<TextField value={} variant="outlined" className={styless.input} />
 		</Grid>
 	);
 }

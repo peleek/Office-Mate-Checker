@@ -3,6 +3,14 @@ import { Grid, Typography, TextField, Button, Box } from '@material-ui/core';
 import { useMutation } from '@apollo/react-hooks';
 import { userSetingsStyles } from './userSettings.style';
 import { USER_DATA_MUTATION } from './queries/changeUserData';
+<<<<<<< HEAD
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
+function Alert(props: AlertProps) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+=======
 import { SuccessUpdateSnackbar } from './SuccessUpdateSnackbar';
 import { FailUpdateSnackbar } from './FailUpdateSnackbar';
 import { AuthContext } from '../../context/authContext';
@@ -56,7 +64,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 		setErrors(emptyErrors);
 		changeUserData();
 	};
-
+	console.log(errors);
 	return (
 		<>
 			<Grid item className={styless.inputBox}>
@@ -107,11 +115,24 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 					Save
 				</Button>
 			)}
+			<Grid className={styless.errorsBox}>
+				{errors.username.length >= 1 && <p>{errors.username[0]}</p>}
+				{errors.email.length >= 1 && <p>{errors.email[0]}</p>}
+			</Grid>
+
 			{openSuccessSnackbar && (
-				<SuccessUpdateSnackbar openSnackbar={openSuccessSnackbar} handleClose={handleSnackbarClose} />
+				<Snackbar open={openSuccessSnackbar} onClose={handleSnackbarClose}>
+					<Alert onClose={handleSnackbarClose} severity="success">
+						Successfull change!
+					</Alert>
+				</Snackbar>
 			)}
 			{openFailSnackbar && (
-				<FailUpdateSnackbar openSnackbar={openFailSnackbar} handleClose={handleSnackbarClose} errors={errors} />
+				<Snackbar open={openFailSnackbar} onClose={handleSnackbarClose}>
+					<Alert onClose={handleSnackbarClose} severity="error">
+						Something went wrong, check errors!
+					</Alert>
+				</Snackbar>
 			)}
 		</>
 	);

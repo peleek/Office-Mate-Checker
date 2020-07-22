@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { Grid, Typography, TextField, Box, Button } from '@material-ui/core';
 import { userSetingsStyles } from './userSettings.style';
 import { USER_PASSWORD_MUTATION } from './queries/changeUserPassword';
-import { SuccessUpdateSnackbar } from './SuccessUpdateSnackbar';
-import { FailUpdateSnackbar } from './FailUpdateSnackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 import { useMutation } from '@apollo/react-hooks';
+
+function Alert(props: AlertProps) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const emptyErrors = {
 	currentPassword: [],
@@ -32,11 +36,9 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 	const [changePassword, { loading }] = useMutation(USER_PASSWORD_MUTATION, {
 		update(proxy, response) {
 			setSuccessOpen(true);
-			console.log(response);
 			setTimeout(() => setSuccessOpen(false), 6000);
 		},
 		onError(err) {
-			debugger;
 			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
 			if (userDataErrors) {
 				setErrors(userDataErrors);
@@ -45,9 +47,9 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 			setTimeout(() => setFailOpen(false), 6000);
 		},
 		variables: {
-				currentPassword,
-				newPassword,
-				confirmedNewPassword,
+			currentPassword,
+			newPassword,
+			confirmedNewPassword,
 		},
 	});
 
@@ -80,49 +82,66 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 				</Grid>
 				<b>You can change your password address by providing your current password and new password</b>
 				{openChangePassword && (
-					<Grid item className={styless.inputBox}>
-						<Typography className={styless.inputLabel} variant="h6">
-							Your Password
-						</Typography>
-						<TextField
-							onChange={(e) => setCurrentPassword(e.target.value)}
-							variant="outlined"
-							className={styless.input}
-						/>
-						<Typography className={styless.inputLabel} variant="h6">
-							New password
-						</Typography>
-						<TextField
-							onChange={(e) => setNewPassword(e.target.value)}
-							variant="outlined"
-							className={styless.input}
-						/>
-						<Typography className={styless.inputLabel} variant="h6">
-							Confirm new password
-						</Typography>
-						<TextField
-							onChange={(e) => setConfirmedNewPassword(e.target.value)}
-							variant="outlined"
-							className={styless.input}
-						/>
-						<Button
-							style={{ maxWidth: '90px' }}
-							variant="contained"
-							color="primary"
-							size="medium"
-							onClick={onSaveSubmit}
-						>
-							Save
-						</Button>
-					</Grid>
+					<>
+						<Grid item className={styless.inputBox}>
+							<Typography className={styless.inputLabel} variant="h6">
+								Your Password
+							</Typography>
+							<TextField
+								onChange={(e) => setCurrentPassword(e.target.value)}
+								variant="outlined"
+								className={styless.input}
+							/>
+
+							<Typography className={styless.inputLabel} variant="h6">
+								New password
+							</Typography>
+							<TextField
+								onChange={(e) => setNewPassword(e.target.value)}
+								variant="outlined"
+								className={styless.input}
+							/>
+							<Typography className={styless.inputLabel} variant="h6">
+								Confirm new password
+							</Typography>
+							<TextField
+								onChange={(e) => setConfirmedNewPassword(e.target.value)}
+								variant="outlined"
+								className={styless.input}
+							/>
+							<Button
+								style={{ maxWidth: '90px' }}
+								variant="contained"
+								color="primary"
+								size="medium"
+								onClick={onSaveSubmit}
+							>
+								Save
+							</Button>
+						</Grid>
+						<Grid className={styless.errorsBox}>
+							{errors.currentPassword.length >= 1 && <p>{errors.currentPassword[0]}</p>}
+							{errors.newPassword.length >= 1 && <p>{errors.newPassword[0]}</p>}
+							{errors.confirmedNewPassword.length >= 1 && <p>{errors.confirmedNewPassword[0]}</p>}
+						</Grid>
+					</>
+				)}
+
+				{openSuccessSnackbar && (
+					<Snackbar open={openSuccessSnackbar} onClose={handleSnackbarClose}>
+						<Alert onClose={handleSnackbarClose} severity="success">
+							You have successfully changed your password!
+						</Alert>
+					</Snackbar>
+				)}
+				{openFailSnackbar && (
+					<Snackbar open={openFailSnackbar} onClose={handleSnackbarClose}>
+						<Alert onClose={handleSnackbarClose} severity="error">
+							Something went wrong, check errors!
+						</Alert>
+					</Snackbar>
 				)}
 			</Grid>
-			{openSuccessSnackbar && (
-				<SuccessUpdateSnackbar openSnackbar={openSuccessSnackbar} handleClose={handleSnackbarClose} />
-			)}
-			{openFailSnackbar && (
-				<FailUpdateSnackbar openSnackbar={openFailSnackbar} handleClose={handleSnackbarClose} errors={errors} />
-			)}
 		</>
 	);
 }

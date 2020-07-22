@@ -97,5 +97,12 @@ export const userSetingsStyles = makeStyles((theme: Theme) =>
 		userData: {
 			fontSize: '18px',
 		},
+		errorsBox: {
+			fontSize: '18px',
+			color: '#eb4c34',
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(2),
+			fontWeight: 550,
+		},
 	})
 );
