@@ -29,7 +29,7 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 		setFailOpen(false);
 	};
 
-	const [changeUserPassword, { loading }] = useMutation(USER_PASSWORD_MUTATION, {
+	const [changePassword, { loading }] = useMutation(USER_PASSWORD_MUTATION, {
 		update(proxy, response) {
 			setSuccessOpen(true);
 			console.log(response);
@@ -45,18 +45,16 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 			setTimeout(() => setFailOpen(false), 6000);
 		},
 		variables: {
-			changePassword: {
 				currentPassword,
 				newPassword,
 				confirmedNewPassword,
-			},
 		},
 	});
 
 	const onSaveSubmit = (e) => {
 		e.preventDefault();
 		setErrors(emptyErrors);
-		changeUserPassword();
+		changePassword();
 	};
 
 	return (
