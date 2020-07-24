@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles, Grid, Switch } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import { CustomTextField } from './CustomTextField';
 
 const useStyles = makeStyles((theme) => ({
 	span: {

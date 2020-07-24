@@ -124,7 +124,6 @@ export const FormContainer = () => {
 	const onRegisterSubmit = (e) => {
 		e.preventDefault();
 		setErrors(emptyErrors);
-		console.log(formValues);
 		addUser();
 	};
 

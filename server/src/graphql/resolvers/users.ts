@@ -11,13 +11,16 @@ import {
 } from '../../util/validators';
 import { checkAuth } from '../../util/checkAuth';
 import { getOrganization } from '../../util/getOrganization';
+import { OrganizationModel, IOrganizationSchema } from '../../models/Organization';
 
-const generateToken = (user: IUserSchema) => {
+const generateToken = (user: IUserSchema, userOrganization: IOrganizationSchema) => {
 	return jwt.sign(
 		{
 			id: user.id,
 			email: user.email,
 			username: user.username,
+			organizationCode: userOrganization.organizationCode,
+			organizationName: userOrganization.organizationName,
 		},
 		`${process.env.SECRET_JWT_KEY}`,
 		{ expiresIn: '1h' }
@@ -58,8 +61,8 @@ export const UsersResolvers = {
 			if (!match) {
 				throw new UserInputError('Errors', { errors: { password: ['Wrong credentials'] } });
 			}
-
-			const token = generateToken(user);
+			const userOrganization = await OrganizationModel.findOne({ _id: user.organization.toString() });
+			const token = generateToken(user, userOrganization);
 
 			return {
 				username: user.username,
@@ -84,7 +87,10 @@ export const UsersResolvers = {
 			const existingUser = (await UserModel.findOne({ username }))?.username;
 			const existingEmail = (await UserModel.findOne({ email }))?.email;
 
-			if (existingEmail || existingUser) {
+			if (
+				(existingUser && existingUser !== currentUser.username) ||
+				(existingEmail && existingEmail !== currentUser.email)
+			) {
 				throw new UserInputError('errors', {
 					errors: {
 						username: existingUser && existingUser !== currentUser.username ? ['User already exists'] : [],
@@ -93,9 +99,13 @@ export const UsersResolvers = {
 				});
 			}
 
-			const newUser = await UserModel.updateOne({ _id: currentUser.id }, { $set: { username, email } });
+			await UserModel.findOneAndUpdate({ _id: currentUser.id }, { $set: { username, email } });
+			const user = await UserModel.findOne({ _id: currentUser.id });
+			const userOrganization = await OrganizationModel.findOne({ _id: user.organization.toString() });
+
+			const token = generateToken(user, userOrganization);
 			return {
-				token: generateToken(newUser),
+				token,
 			};
 		},
 
@@ -194,7 +204,7 @@ export const UsersResolvers = {
 			});
 
 			const res = await newUser.save();
-			const token = generateToken(res);
+			const token = generateToken(res, organization);
 
 			return {
 				username: res.username,
