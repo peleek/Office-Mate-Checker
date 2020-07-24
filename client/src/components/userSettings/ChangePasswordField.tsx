@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import { TextField } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { TextField, IconButton, OutlinedInput, InputAdornment } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { userSetingsStyles } from './userSettings.style';
 
 export const ChangePasswordField = ({ values, setValues }): JSX.Element => {
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -18,7 +12,7 @@ export const ChangePasswordField = ({ values, setValues }): JSX.Element => {
 	};
 
 	return (
-		<TextField className={styless.input} variant="outlined">
+		<TextField className={styles.input} variant="outlined">
 			<OutlinedInput
 				id="outlined-adornment-password"
 				type={showPassword ? 'text' : 'password'}

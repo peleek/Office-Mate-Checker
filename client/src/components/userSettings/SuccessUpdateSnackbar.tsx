@@ -11,7 +11,7 @@ export function SuccessUpdateSnackbar({ handleClose, openSnackbar }) {
 		<div>
 			<Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose}>
 				<Alert onClose={handleClose} severity="success">
-					successfull change!
+					Successfull change!
 				</Alert>
 			</Snackbar>
 			<Alert severity="success">successfull change!</Alert>

@@ -17,7 +17,7 @@ const emptyErrors = {
 };
 
 export function UserData({ openPersonalData, user, setPersonalData }) {
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 	const [newUserName, setNewUserName] = useState(user.username);
 	const [newUserEmail, setNewUserEmail] = useState(user.email);
 	const [openSuccessSnackbar, setSuccessOpen] = useState(false);
@@ -60,41 +60,41 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 		setErrors(emptyErrors);
 		changeUserData();
 	};
-	console.log(errors);
+
 	return (
 		<>
-			<Grid item className={styless.inputBox}>
-				<Box borderBottom={1} className={styless.sectionLabel}>
-					<Typography className={styless.sectionHeader} variant="h5">
+			<Grid item className={styles.inputBox}>
+				<Box borderBottom={1} className={styles.sectionLabel}>
+					<Typography className={styles.sectionHeader} variant="h5">
 						User Data
 					</Typography>
 				</Box>
-				<Typography className={styless.inputLabel} variant="h6">
+				<Typography className={styles.inputLabel} variant="h6">
 					Your Name:
 				</Typography>
 				{!openPersonalData ? (
-					<p className={styless.userData}>{newUserName}</p>
+					<p className={styles.userData}>{newUserName}</p>
 				) : (
 					<TextField
 						onChange={(e) => setNewUserName(e.target.value)}
 						defaultValue={newUserName}
 						variant="outlined"
-						className={styless.input}
+						className={styles.input}
 					/>
 				)}
 			</Grid>
-			<Grid item className={styless.inputBox}>
-				<Typography className={styless.inputLabel} variant="h6">
+			<Grid item className={styles.inputBox}>
+				<Typography className={styles.inputLabel} variant="h6">
 					Email:
 				</Typography>
 				{!openPersonalData ? (
-					<p className={styless.userData}>{newUserEmail}</p>
+					<p className={styles.userData}>{newUserEmail}</p>
 				) : (
 					<TextField
 						onChange={(e) => setNewUserEmail(e.target.value)}
 						defaultValue={newUserEmail}
 						variant="outlined"
-						className={styless.input}
+						className={styles.input}
 					/>
 				)}
 			</Grid>
@@ -111,7 +111,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 					Save
 				</Button>
 			)}
-			<Grid className={styless.errorsBox}>
+			<Grid className={styles.errorsBox}>
 				{errors.username.length >= 1 && <p>{errors.username[0]}</p>}
 				{errors.email.length >= 1 && <p>{errors.email[0]}</p>}
 			</Grid>

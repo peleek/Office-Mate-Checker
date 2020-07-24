@@ -7,9 +7,9 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { useMutation } from '@apollo/react-hooks';
 
-function Alert(props: AlertProps) {
+const Alert = (props: AlertProps) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+};
 
 const emptyErrors = {
 	currentPassword: [],
@@ -17,8 +17,8 @@ const emptyErrors = {
 	confirmedNewPassword: [],
 };
 
-export function ChangePassword({ openChangePassword, setChangePassword }) {
-	const styless = userSetingsStyles();
+export const ChangePassword = ({ openChangePassword, setChangePassword }) => {
+	const styles = userSetingsStyles();
 	const [openSuccessSnackbar, setSuccessOpen] = useState(false);
 	const [openFailSnackbar, setFailOpen] = useState(false);
 	const [errors, setErrors] = useState(emptyErrors);
@@ -62,14 +62,14 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 
 	return (
 		<>
-			<Grid container item className={styless.inputBox}>
-				<Box borderBottom={1} className={styless.middleSectionHeader}>
-					<Typography className={styless.sectionHeader} variant="h5">
+			<Grid container item className={styles.inputBox}>
+				<Box borderBottom={1} className={styles.middleSectionHeader}>
+					<Typography className={styles.sectionHeader} variant="h5">
 						Advanced Settings
 					</Typography>
 				</Box>
-				<Grid item className={styless.advancedSettings}>
-					<Typography className={styless.inputLabel} variant="h6">
+				<Grid item className={styles.advancedSettings}>
+					<Typography className={styles.inputLabel} variant="h6">
 						Change password
 					</Typography>
 					<Button
@@ -84,34 +84,21 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 				<b>You can change your password address by providing your current password and new password</b>
 				{openChangePassword && (
 					<>
-						<Grid item className={styless.inputBox}>
-							<Typography className={styless.inputLabel} variant="h6">
+						<Grid item className={styles.inputBox}>
+							<Typography className={styles.inputLabel} variant="h6">
 								Your Password
 							</Typography>
 							<ChangePasswordField values={currentPassword} setValues={setCurrentPassword} />
-							{/* <TextField
-								onChange={(e) => setCurrentPassword(e.target.value)}
-								variant="outlined"
-								className={styless.input}
-							/> */}
 
-							<Typography className={styless.inputLabel} variant="h6">
+							<Typography className={styles.inputLabel} variant="h6">
 								New password
 							</Typography>
 							<ChangePasswordField values={newPassword} setValues={setNewPassword} />
-							{/* <TextField
-								onChange={(e) => setNewPassword(e.target.value)}
-								variant="outlined"
-								className={styless.input}
-							/> */}
-							<Typography className={styless.inputLabel} variant="h6">
+
+							<Typography className={styles.inputLabel} variant="h6">
 								Confirm new password
 							</Typography>
-							{/* <TextField
-								onChange={(e) => setConfirmedNewPassword(e.target.value)}
-								variant="outlined"
-								className={styless.input}
-							/> */}
+
 							<ChangePasswordField values={confirmedNewPassword} setValues={setConfirmedNewPassword} />
 							<Button
 								style={{ maxWidth: '90px' }}
@@ -123,7 +110,7 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 								Save
 							</Button>
 						</Grid>
-						<Grid className={styless.errorsBox}>
+						<Grid className={styles.errorsBox}>
 							{errors.currentPassword.length >= 1 && <p>{errors.currentPassword[0]}</p>}
 							{errors.newPassword.length >= 1 && <p>{errors.newPassword[0]}</p>}
 							{errors.confirmedNewPassword.length >= 1 && <p>{errors.confirmedNewPassword[0]}</p>}
@@ -148,4 +135,4 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 			</Grid>
 		</>
 	);
-}
+};

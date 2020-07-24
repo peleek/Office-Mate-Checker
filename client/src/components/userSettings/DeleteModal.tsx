@@ -14,7 +14,7 @@ const emptyErrors = {
 export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 	const { logout } = useContext(AuthContext);
 
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 	const [errors, setErrors] = useState(emptyErrors);
 	const [openFailSnackbar, setFailOpen] = useState(false);
 	const [currentPassword, setCurrentPassword] = useState('');
@@ -25,7 +25,6 @@ export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 		},
 		onError(err) {
 			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
-			console.log(userDataErrors);
 			if (userDataErrors) {
 				setErrors(userDataErrors);
 			} else setErrors(userDataErrors);
@@ -42,13 +41,13 @@ export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 		setErrors(emptyErrors);
 		deleteUser();
 	};
-	console.log(errors);
+
 	return (
 		<div>
 			<Modal
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
-				className={styless.modal}
+				className={styles.modal}
 				open={openDeleteModal}
 				onClose={handleCloseModal}
 				closeAfterTransition
@@ -58,19 +57,19 @@ export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 				}}
 			>
 				<Fade in={openDeleteModal}>
-					<div className={styless.modalPaper}>
-						<Typography className={styless.inputLabel} variant="h6">
+					<div className={styles.modalPaper}>
+						<Typography className={styles.inputLabel} variant="h6">
 							If you want to delete an account enter password and submit
 						</Typography>
-						<div className={styless.modalInput}>
+						<div className={styles.modalInput}>
 							<TextField
 								onChange={(e) => setCurrentPassword(e.target.value)}
 								variant="outlined"
-								className={styless.input}
+								className={styles.input}
 							/>
 							<Button
 								onClick={onSubmit}
-								className={styless.modalButton}
+								className={styles.modalButton}
 								variant="contained"
 								size="medium"
 								color="secondary"
@@ -79,7 +78,7 @@ export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 							</Button>
 						</div>
 						{errors.currentPassword.length > 1 && (
-							<p className={styless.errorsBox}>{errors.currentPassword}</p>
+							<p className={styles.errorsBox}>{errors.currentPassword}</p>
 						)}
 					</div>
 				</Fade>

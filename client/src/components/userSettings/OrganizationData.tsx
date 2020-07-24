@@ -3,18 +3,18 @@ import { Grid, Typography, TextField, Box } from '@material-ui/core';
 import { userSetingsStyles } from './userSettings.style';
 
 export function OrganizationData({ user }) {
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 	return (
-		<Grid item className={styless.inputBox}>
-			<Box borderBottom={1} className={styless.middleSectionHeader}>
-				<Typography className={styless.sectionHeader} variant="h5">
+		<Grid item className={styles.inputBox}>
+			<Box borderBottom={1} className={styles.middleSectionHeader}>
+				<Typography className={styles.sectionHeader} variant="h5">
 					Organization Data
 				</Typography>
 			</Box>
-			<Typography className={styless.inputLabel} variant="h6">
+			<Typography className={styles.inputLabel} variant="h6">
 				Organization code
 			</Typography>
-			<TextField value={} variant="outlined" className={styless.input} />
+			<TextField value={} variant="outlined" className={styles.input} />
 		</Grid>
 	);
 }

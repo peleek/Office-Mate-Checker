@@ -14,7 +14,7 @@ export function UserSettings() {
 	const [openDeleteModal, setDeleteModalOpen] = useState(false);
 	const [openPersonalData, setPersonalData] = useState(false);
 	const { user } = useContext(AuthContext);
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 
 	const handleOpenModal = () => {
 		setDeleteModalOpen(true);
@@ -25,12 +25,12 @@ export function UserSettings() {
 	};
 
 	return (
-		<Grid container className={styless.userSettingsContainer}>
-			<Grid container item direction="column" className={styless.paper}>
-				<Typography variant="h4" className={styless.header}>
+		<Grid container className={styles.userSettingsContainer}>
+			<Grid container item direction="column" className={styles.paper}>
+				<Typography variant="h4" className={styles.header}>
 					Account Settings
 				</Typography>
-				<Grid item container xs={12} md={12} xl={12} className={styless.formContainer} direction="row">
+				<Grid item container xs={12} md={12} xl={12} className={styles.formContainer} direction="row">
 					<Grid item xs={12} md={7} xl={7}>
 						<form noValidate autoComplete="off">
 							<UserData

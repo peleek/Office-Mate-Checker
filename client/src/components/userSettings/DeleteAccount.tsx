@@ -4,11 +4,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { userSetingsStyles } from './userSettings.style';
 
 export function DeleteAccount({ handleOpenModal }) {
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 	return (
-		<Grid container item className={styless.inputBox}>
-			<Grid item className={styless.advancedSettings}>
-				<Typography className={styless.inputLabel} variant="h6">
+		<Grid container item className={styles.inputBox}>
+			<Grid item className={styles.advancedSettings}>
+				<Typography className={styles.inputLabel} variant="h6">
 					Delete your account
 				</Typography>
 				<Button

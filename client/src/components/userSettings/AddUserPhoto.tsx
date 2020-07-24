@@ -4,14 +4,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { userSetingsStyles } from './userSettings.style';
 
 export function AddUserPhoto() {
-	const styless = userSetingsStyles();
+	const styles = userSetingsStyles();
 	return (
-		<Grid item xs={12} md={5} xl={5} className={styless.userPhoto}>
-			<AccountCircle className={styless.userIcon} />
+		<Grid item xs={12} md={5} xl={5} className={styles.userPhoto}>
+			<AccountCircle className={styles.userIcon} />
 			<label htmlFor="contained-button-file">
 				<input
 					accept="image/*"
-					className={styless.uploadInput}
+					className={styles.uploadInput}
 					id="contained-button-file"
 					multiple
 					type="file"
