@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ChangePasswordField } from './ChangePasswordField';
 import { Grid, Typography, TextField, Box, Button } from '@material-ui/core';
 import { userSetingsStyles } from './userSettings.style';
 import { USER_PASSWORD_MUTATION } from './queries/changeUserPassword';
@@ -87,28 +88,31 @@ export function ChangePassword({ openChangePassword, setChangePassword }) {
 							<Typography className={styless.inputLabel} variant="h6">
 								Your Password
 							</Typography>
-							<TextField
+							<ChangePasswordField values={currentPassword} setValues={setCurrentPassword} />
+							{/* <TextField
 								onChange={(e) => setCurrentPassword(e.target.value)}
 								variant="outlined"
 								className={styless.input}
-							/>
+							/> */}
 
 							<Typography className={styless.inputLabel} variant="h6">
 								New password
 							</Typography>
-							<TextField
+							<ChangePasswordField values={newPassword} setValues={setNewPassword} />
+							{/* <TextField
 								onChange={(e) => setNewPassword(e.target.value)}
 								variant="outlined"
 								className={styless.input}
-							/>
+							/> */}
 							<Typography className={styless.inputLabel} variant="h6">
 								Confirm new password
 							</Typography>
-							<TextField
+							{/* <TextField
 								onChange={(e) => setConfirmedNewPassword(e.target.value)}
 								variant="outlined"
 								className={styless.input}
-							/>
+							/> */}
+							<ChangePasswordField values={confirmedNewPassword} setValues={setConfirmedNewPassword} />
 							<Button
 								style={{ maxWidth: '90px' }}
 								variant="contained"

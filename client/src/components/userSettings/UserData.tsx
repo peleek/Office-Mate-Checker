@@ -1,18 +1,15 @@
 import React, { useState, useContext } from 'react';
-
+import { useMutation } from '@apollo/react-hooks';
+import { Typography, Box, Grid, TextField, Button } from '@material-ui/core';
+import { userSetingsStyles } from './userSettings.style';
 import { USER_DATA_MUTATION } from './queries/changeUserData';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import { AuthContext } from '../../context/authContext';
 
 function Alert(props: AlertProps) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-import { SuccessUpdateSnackbar } from './SuccessUpdateSnackbar';
-import { FailUpdateSnackbar } from './FailUpdateSnackbar';
-import { AuthContext } from '../../context/authContext';
-import { useMutation } from '@apollo/react-hooks';
-import { Typography, Box, Grid, TextField, Button } from '@material-ui/core';
-import { userSetingsStyles } from './userSettings.style';
 
 const emptyErrors = {
 	username: [],
@@ -26,7 +23,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 	const [openSuccessSnackbar, setSuccessOpen] = useState(false);
 	const [openFailSnackbar, setFailOpen] = useState(false);
 	const [errors, setErrors] = useState(emptyErrors);
-	const {login} = useContext(AuthContext)
+	const { login } = useContext(AuthContext);
 
 	const handleSnackbarClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
 		if (reason === 'clickaway') {
@@ -40,7 +37,7 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 		update(proxy, response) {
 			setSuccessOpen(true);
 			setTimeout(() => setSuccessOpen(false), 6000);
-			login(response.data.changeUserData)
+			login(response.data.changeUserData);
 		},
 		onError(err) {
 			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
