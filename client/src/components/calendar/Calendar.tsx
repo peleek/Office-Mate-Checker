@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/timegrid/main.css';
 import { Button, CircularProgress } from '@material-ui/core';
