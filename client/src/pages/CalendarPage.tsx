@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid } from '@material-ui/core';
 import { EventApi, DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/react';
-import { CalendarSidebar } from '../components/calendar/CalendarSidebar';
 import { useMutation, useQuery } from '@apollo/react-hooks';
+import { CalendarSidebar } from '../components/calendar/CalendarSidebar';
 import { getConvertedData } from '../components/calendar/getConvertedData';
 import { getEventsQuery, addEventsMutation } from '../components/calendar/getEventsFromServer';
 import { CalendarDemo } from '../components/calendar/CalendarDemo';
@@ -32,8 +32,8 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 	};
 
 	const handleDateSelect = (selectInfo: DateSelectArg) => {
-		let title = prompt('Please enter a new title for your event');
-		let calendarApi = selectInfo.view.calendar;
+		const title = prompt('Please enter a new title for your event');
+		const calendarApi = selectInfo.view.calendar;
 
 		calendarApi.unselect(); // clear date selection
 

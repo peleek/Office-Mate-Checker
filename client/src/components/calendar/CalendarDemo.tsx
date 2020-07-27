@@ -37,21 +37,19 @@ export const CalendarDemo = ({
 								right: 'dayGridMonth,timeGridWeek,timeGridDay',
 							}}
 							initialView="dayGridMonth"
-							editable={true}
-							selectable={true}
-							selectMirror={true}
-							dayMaxEvents={true}
+							editable
+							selectable
+							selectMirror
+							dayMaxEvents
 							weekends={weekendsVisible}
 							// initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
 							select={handleDateSelect}
 							eventContent={renderEventContent} // custom render function
 							eventClick={handleEventClick}
 							eventsSet={(events: EventApi[]) => setCurrentEvents(events)} // called after events are initialized/added/changed/removed
-							/* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
+							eventAdd={(e) => console.log(e)}
+							eventChange={(e) => console.log(e)}
+							eventRemove={(e) => console.log(e)}
 						/>
 					</div>
 				</div>
