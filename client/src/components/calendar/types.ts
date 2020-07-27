@@ -10,8 +10,6 @@ export interface ICalendarState {
 }
 
 export interface ICalendarProps {
-	saveToServer: (calendarRef: React.RefObject<any>) => void;
-	addEventsLoading: boolean;
 	handleEventClick: (clickInfo: EventClickArg) => void;
 	setCurrentEvents: React.Dispatch<React.SetStateAction<EventApi[]>>;
 	renderEventContent: (eventContent: EventContentArg) => JSX.Element;

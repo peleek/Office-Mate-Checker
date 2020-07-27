@@ -46,11 +46,11 @@ export const EventsResolvers = {
 			try {
 				const user = checkAuth(context);
 
-				const newEvent = new EventModel(event);
-				await event.save();
+				const newEvent = new EventModel({ ...event, creator: user.id, eventId: event.id });
+				await newEvent.save();
 
 				return {
-					description: 'Event added successfully!',
+					eventId: null,
 				};
 			} catch (err) {
 				throw new Error(err);

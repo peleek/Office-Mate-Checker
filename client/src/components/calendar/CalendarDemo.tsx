@@ -3,22 +3,31 @@ import FullCalendar, { EventApi } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Button, CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import './calendarStyle.css';
+import { useMutation } from '@apollo/react-hooks';
 import { ICalendarProps } from './types';
+import { ADD_EVENT_MUTATION } from './graphql/eventMutations';
 
 export const CalendarDemo = ({
-	addEventsLoading,
 	setCurrentEvents,
 	handleEventClick,
 	renderEventContent,
 	weekendsVisible,
 	initialEvents,
 	handleDateSelect,
-	saveToServer,
 	loading,
 }: ICalendarProps): JSX.Element => {
 	const calendarRef: React.Ref<any> = useRef(null);
+	const [addEvent] = useMutation(ADD_EVENT_MUTATION, {
+		update(proxy, response) {
+			// event is is here : response.data.addEvent.eventId
+			// its needed to handle remove this event from pendingEvents array
+		},
+		onError(err) {
+			// remove it from pendingEvents array and also call revert() function on this event
+		},
+	});
 
 	return (
 		<>
@@ -36,28 +45,24 @@ export const CalendarDemo = ({
 								center: 'title',
 								right: 'dayGridMonth,timeGridWeek,timeGridDay',
 							}}
-							initialView="dayGridMonth"
+							initialView="timeGridWeek"
 							editable
 							selectable
 							selectMirror
 							dayMaxEvents
 							weekends={weekendsVisible}
-							// initialEvents={initialEvents} // alternatively, use the `events` setting to fetch from a feed
 							select={handleDateSelect}
 							eventContent={renderEventContent} // custom render function
 							eventClick={handleEventClick}
 							eventsSet={(events: EventApi[]) => setCurrentEvents(events)} // called after events are initialized/added/changed/removed
-							eventAdd={(e) => console.log(e)}
-							eventChange={(e) => console.log(e)}
-							eventRemove={(e) => console.log(e)}
+							eventAdd={(e) => {
+								addEvent({ variables: { event: e.event }, context: { event: e.event } });
+							}}
+							eventChange={(e) => setTimeout(() => e.revert(), 3000)}
+							eventRemove={(e) => setTimeout(() => e.revert(), 3000)}
 						/>
 					</div>
 				</div>
-			)}
-			{addEventsLoading ? (
-				<CircularProgress />
-			) : (
-				<Button onClick={() => saveToServer(calendarRef)}>Save calendar to server</Button>
 			)}
 		</>
 	);

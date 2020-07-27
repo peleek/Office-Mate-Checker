@@ -17,6 +17,7 @@ export const eventSchema = new Schema({
 	backgroundColor: String,
 	borderColor: String,
 	textColor: String,
+	eventId: String,
 	creator: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',

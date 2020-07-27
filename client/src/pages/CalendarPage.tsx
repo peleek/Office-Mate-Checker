@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { EventApi, DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { CalendarSidebar } from '../components/calendar/CalendarSidebar';
-import { getConvertedData } from '../components/calendar/getConvertedData';
-import { getEventsQuery, addEventsMutation } from '../components/calendar/getEventsFromServer';
+import { getEventsQuery } from '../components/calendar/getEventsFromServer';
 import { CalendarDemo } from '../components/calendar/CalendarDemo';
 
 export const CalendarPage: React.FC = (): JSX.Element => {
@@ -19,17 +18,6 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 			setInitialEvents(data.getUserEvents);
 		}
 	}, [loading]);
-
-	const [addToServer, { loading: addEventsLoading }] = useMutation(addEventsMutation);
-
-	const saveToServer = (calendarRef: React.RefObject<any>) => {
-		const events = getConvertedData(calendarRef.current._calendarApi.currentDataManager);
-		addToServer({
-			variables: {
-				events,
-			},
-		});
-	};
 
 	const handleDateSelect = (selectInfo: DateSelectArg) => {
 		const title = prompt('Please enter a new title for your event');
@@ -75,8 +63,6 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 			<Grid item xs={10}>
 				{/* <Calendar /> */}
 				<CalendarDemo
-					saveToServer={saveToServer}
-					addEventsLoading={addEventsLoading}
 					handleEventClick={handleEventClick}
 					setCurrentEvents={setCurrentEvents}
 					renderEventContent={renderEventContent}

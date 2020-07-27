@@ -70,13 +70,17 @@ export const typeDefs = gql`
 		email: String!
 	}
 
+	type EventResponse {
+		eventId: String!
+	}
+
 	type Mutation {
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
 		updateEvents(events: [EventInput]): Status!
-		addEvent(events: [EventInput]): Status!
-		removeEvent(eventId: String!): Status!
-		changeEvent(events: [EventInput]): Status!
+		addEvent(event: EventInput): EventResponse!
+		removeEvent(eventId: String!): EventResponse!
+		changeEvent(events: [EventInput]): EventResponse!
 		changeUserData(userData: UserDataInput!): ChangedDataResponse!
 		changePassword(currentPassword: String!, newPassword: String!, confirmedNewPassword: String!): Status!
 		deleteUser(currentPassword: String!): Status!
