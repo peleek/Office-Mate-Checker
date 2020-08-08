@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Typography, Box, Grid, TextField, Button } from '@material-ui/core';
-import { userSetingsStyles } from './userSettings.style';
-import { USER_DATA_MUTATION } from './queries/changeUserData';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import { userSetingsStyles } from './userSettings.style';
+import { USER_DATA_MUTATION } from './queries/changeUserData';
 import { AuthContext } from '../../context/authContext';
 
 function Alert(props: AlertProps) {
@@ -14,6 +14,11 @@ function Alert(props: AlertProps) {
 const emptyErrors = {
 	username: [],
 	email: [],
+};
+
+type UserDataErrors = {
+	username: any[];
+	email: any[];
 };
 
 export function UserData({ openPersonalData, user, setPersonalData }) {
@@ -33,14 +38,14 @@ export function UserData({ openPersonalData, user, setPersonalData }) {
 		setFailOpen(false);
 	};
 
-	const [changeUserData, { loading }] = useMutation(USER_DATA_MUTATION, {
+	const [changeUserData] = useMutation(USER_DATA_MUTATION, {
 		update(proxy, response) {
 			setSuccessOpen(true);
 			setTimeout(() => setSuccessOpen(false), 6000);
 			login(response.data.changeUserData);
 		},
 		onError(err) {
-			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
+			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as UserDataErrors;
 			if (userDataErrors) {
 				setErrors(userDataErrors);
 			} else setErrors(userDataErrors);
