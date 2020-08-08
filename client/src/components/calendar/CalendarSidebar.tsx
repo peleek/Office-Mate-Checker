@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { formatDate } from '@fullcalendar/react';
 import { EventApi } from '@fullcalendar/core';
 
 export const CalendarSidebar = ({ weekendsVisible, currentEvents, setWeekendsVisible }): JSX.Element => {
+	const [term, setTerm] = useState('');
+
 	const renderSidebarEvent = (event: EventApi) => {
 		return (
 			<li key={event.id}>
@@ -40,6 +42,7 @@ export const CalendarSidebar = ({ weekendsVisible, currentEvents, setWeekendsVis
 			</div>
 			<div className="demo-app-sidebar-section">
 				<h2>All Events ({currentEvents.length})</h2>
+				<input onChange={(e) => setTerm(e.target.value)} value={term} type="text" />
 				<ul>{currentEvents.map(renderSidebarEvent)}</ul>
 			</div>
 		</div>

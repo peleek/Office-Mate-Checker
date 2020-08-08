@@ -30,7 +30,7 @@ export function UserSettings() {
 								user={user}
 								setPersonalData={setPersonalData}
 							/>
-							<OrganizationData />
+							<OrganizationData organizationCode={user.organizationCode} />
 							<ChangePassword
 								openChangePassword={openChangePassword}
 								setChangePassword={setChangePassword}

@@ -104,5 +104,10 @@ export const userSetingsStyles = makeStyles((theme: Theme) =>
 			marginBottom: theme.spacing(2),
 			fontWeight: 550,
 		},
+		organizationData: {
+			fontSize: '18px',
+			fontWeight: 600,
+			marginTop: '10px',
+		},
 	})
 );
