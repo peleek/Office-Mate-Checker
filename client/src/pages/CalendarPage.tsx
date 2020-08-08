@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Grid } from '@material-ui/core';
-import { EventApi, DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/react';
+import { EventApi, DateSelectArg, EventClickArg, EventContentArg, guid } from '@fullcalendar/react';
 import { useQuery } from '@apollo/react-hooks';
+import { RouteComponentProps } from 'react-router';
 import { CalendarSidebar } from '../components/calendar/CalendarSidebar';
 import { getEventsQuery } from '../components/calendar/getEventsFromServer';
 import { CalendarDemo } from '../components/calendar/CalendarDemo';
+import { AuthContext } from '../context/authContext';
 
-export const CalendarPage: React.FC = (): JSX.Element => {
-	const [initialEvents, setInitialEvents] = useState();
+type ParamProps = {
+	name: string;
+};
+
+export const CalendarPage: React.FC<RouteComponentProps<ParamProps>> = (props): JSX.Element => {
 	const [weekendsVisible, setWeekendsVisible] = useState(true);
 	const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
+	const { user } = useContext(AuthContext);
 
-	const { loading, data } = useQuery(getEventsQuery);
-
-	useEffect(() => {
-		if (!loading) {
-			setInitialEvents(data.getUserEvents);
-		}
-	}, [loading]);
+	const { loading, data } = useQuery(getEventsQuery, {
+		variables: { username: props.match.params.name?.substring(1) || user.username },
+	});
 
 	const handleDateSelect = (selectInfo: DateSelectArg) => {
 		const title = prompt('Please enter a new title for your event');
@@ -27,7 +29,7 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 
 		if (title) {
 			calendarApi.addEvent({
-				// id: createEventId(),
+				id: guid(),
 				title,
 				start: selectInfo.startStr,
 				end: selectInfo.endStr,
@@ -69,7 +71,7 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 					renderEventContent={renderEventContent}
 					handleDateSelect={handleDateSelect}
 					weekendsVisible={weekendsVisible}
-					initialEvents={initialEvents}
+					initialEvents={data?.getUserEvents || []}
 					loading={loading}
 				/>
 			</Grid>
