@@ -49,8 +49,7 @@
 		"typescript": "^3.8.0"
 	},
 	"scripts": {
-		"start": "run-p type-check:watch develop",
-		"develop": "parcel ./src/index.html",
+		"start": "react-scripts start",
 		"build": "npm run type-check && parcel build ./src/index.html --public-url '/'",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
