@@ -50,7 +50,7 @@ export const EventsResolvers = {
 				await newEvent.save();
 
 				return {
-					eventId: null,
+					eventId: event.id,
 				};
 			} catch (err) {
 				throw new Error(err);

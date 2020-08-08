@@ -8,6 +8,7 @@ import { Navbar } from './components/Navbar';
 import { CalendarPage } from './pages/CalendarPage';
 import { UserSettings } from './pages/UserSettings';
 import { CalendarContextProvider } from './context/calendarContext';
+import { NoCalendarInformation } from './components/NoCalendarInformation';
 
 const useStyles = makeStyles(() => ({
 	appContainer: {
@@ -25,8 +26,9 @@ export const App = () => {
 						<Navbar />
 						<Route exact path="/" component={Home} />
 						<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
-						<AuthRoute noAccess exact path="/matecalendar" component={CalendarPage} />
-						<AuthRoute noAccess exact path="/settings" component={UserSettings} />
+	    				<AuthRoute noAccess exact path="/matecalendar" component={NoCalendarInformation} />
+                        <AuthRoute noAccess exact path="/settings" component={UserSettings} />
+                        <AuthRoute noAccess exact path="/matecalendar:name" component={CalendarPage} />
 					</Container>
 				</Router>
 			</CalendarContextProvider>
