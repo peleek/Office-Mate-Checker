@@ -29,9 +29,9 @@ export const CalendarContextProvider = (props) => {
 	const addEvent = (event) => {
 		dispatch({ type: 'ADD_EVENT', payload: event });
 	};
-	const RemoveEvent = (id) => {
+	const removeEvent = (id) => {
 		dispatch({ type: 'REMOVE_EVENT', payload: id });
 	};
 
-	return <CalendarContext.Provider value={{ addEvent, RemoveEvent }} {...props} />;
+	return <CalendarContext.Provider value={{ addEvent, removeEvent }} {...props} />;
 };

@@ -21,8 +21,8 @@ export const CalendarSidebar = ({ weekendsVisible, currentEvents, setWeekendsVis
 	};
 
 	return (
-		<div className="demo-app-sidebar">
-			<div className="demo-app-sidebar-section">
+		<div className="calendar-sidebar">
+			<div className="calendar-sidebar-section">
 				<h2>Instructions</h2>
 				<ul>
 					<li>Select dates and you will be prompted to create a new event</li>
@@ -30,7 +30,7 @@ export const CalendarSidebar = ({ weekendsVisible, currentEvents, setWeekendsVis
 					<li>Click an event to delete it</li>
 				</ul>
 			</div>
-			<div className="demo-app-sidebar-section">
+			<div className="calendar-sidebar-section">
 				<label>
 					<input
 						type="checkbox"
@@ -40,7 +40,7 @@ export const CalendarSidebar = ({ weekendsVisible, currentEvents, setWeekendsVis
 					toggle weekends
 				</label>
 			</div>
-			<div className="demo-app-sidebar-section">
+			<div className="calendar-sidebar-section">
 				<h2>All Events ({currentEvents.length})</h2>
 				<input onChange={(e) => setTerm(e.target.value)} value={term} type="text" />
 				<ul>{currentEvents.map(renderSidebarEvent)}</ul>

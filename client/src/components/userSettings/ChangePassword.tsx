@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Grid, Typography, Box, Button } from '@material-ui/core';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { Alert } from './Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { useMutation } from '@apollo/react-hooks';
 import { USER_PASSWORD_MUTATION } from './queries/changeUserPassword';
 import { userSetingsStyles } from './userSettings.style';
 import { ChangePasswordField } from './ChangePasswordField';
-
-const Alert = (props: AlertProps) => {
-	return <MuiAlert elevation={6} variant="filled" {...props} />;
-};
 
 const emptyErrors = {
 	currentPassword: [],

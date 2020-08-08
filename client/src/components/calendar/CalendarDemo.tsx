@@ -34,8 +34,8 @@ export const CalendarDemo = ({
 			{loading ? (
 				<CircularProgress />
 			) : (
-				<div className="demo-app">
-					<div className="demo-app-main">
+				<div className="calendar">
+					<div className="calendar-main">
 						<FullCalendar
 							ref={calendarRef}
 							plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -58,8 +58,6 @@ export const CalendarDemo = ({
 							eventAdd={(e) => {
 								addEvent({ variables: { event: e.event }, context: { event: e.event } });
 							}}
-							eventChange={(e) => setTimeout(() => e.revert(), 3000)}
-							eventRemove={(e) => setTimeout(() => e.revert(), 3000)}
 						/>
 					</div>
 				</div>

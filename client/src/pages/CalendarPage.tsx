@@ -61,7 +61,6 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 				/>
 			</Grid>
 			<Grid item xs={10}>
-				{/* <Calendar /> */}
 				<CalendarDemo
 					handleEventClick={handleEventClick}
 					setCurrentEvents={setCurrentEvents}
