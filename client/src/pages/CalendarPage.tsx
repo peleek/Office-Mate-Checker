@@ -37,6 +37,8 @@ export const CalendarPage: React.FC = (): JSX.Element => {
 	};
 
 	const handleEventClick = (clickInfo: EventClickArg) => {
+		// eslint-disable-next-line no-alert
+		// eslint-disable-next-line no-restricted-globals
 		if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
 			clickInfo.event.remove();
 		}
