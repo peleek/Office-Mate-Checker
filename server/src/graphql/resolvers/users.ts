@@ -1,17 +1,26 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+
 import { UserInputError } from 'apollo-server';
-
 import { UserModel, IUserSchema } from '../../models/User';
-import { validateRegisterInput, validateLoginInput } from '../../util/validators';
+import {
+	validateRegisterInput,
+	validateLoginInput,
+	validateChangedUserData,
+	validatePasswords,
+} from '../../util/validators';
 import { checkAuth } from '../../util/checkAuth';
+import { getOrganization } from '../../util/getOrganization';
+import { OrganizationModel, IOrganizationSchema } from '../../models/Organization';
 
-const generateToken = (user: IUserSchema) => {
+const generateToken = (user: IUserSchema, userOrganization: IOrganizationSchema) => {
 	return jwt.sign(
 		{
 			id: user.id,
 			email: user.email,
 			username: user.username,
+			organizationCode: userOrganization.organizationCode,
+			organizationName: userOrganization.organizationName,
 		},
 		`${process.env.SECRET_JWT_KEY}`,
 		{ expiresIn: '1h' }
@@ -52,8 +61,8 @@ export const UsersResolvers = {
 			if (!match) {
 				throw new UserInputError('Errors', { errors: { password: ['Wrong credentials'] } });
 			}
-
-			const token = generateToken(user);
+			const userOrganization = await OrganizationModel.findOne({ _id: user.organization.toString() });
+			const token = generateToken(user, userOrganization);
 
 			return {
 				username: user.username,
@@ -64,9 +73,98 @@ export const UsersResolvers = {
 				token,
 			};
 		},
-		async register(_, { registerInput: { username, email, password, confirmPassword } }) {
-			// TODO: validate user data
-			const errors = validateRegisterInput(username, email, password, confirmPassword);
+		async changeUserData(_, { userData: { username, email } }, context) {
+			const errors = validateChangedUserData(username, email);
+			const currentUser = checkAuth(context);
+
+			const areThereAnyErrors = Object.values(errors).some((el) => el.length);
+			if (areThereAnyErrors) {
+				throw new UserInputError('Errors during user data change', {
+					errors,
+				});
+			}
+
+			const existingUser = (await UserModel.findOne({ username }))?.username;
+			const existingEmail = (await UserModel.findOne({ email }))?.email;
+
+			if (
+				(existingUser && existingUser !== currentUser.username) ||
+				(existingEmail && existingEmail !== currentUser.email)
+			) {
+				throw new UserInputError('errors', {
+					errors: {
+						username: existingUser && existingUser !== currentUser.username ? ['User already exists'] : [],
+						email: existingEmail && existingEmail !== currentUser.email ? ['Email already exists'] : [],
+					},
+				});
+			}
+
+			await UserModel.findOneAndUpdate({ _id: currentUser.id }, { $set: { username, email } });
+			const user = await UserModel.findOne({ _id: currentUser.id });
+			const userOrganization = await OrganizationModel.findOne({ _id: user.organization.toString() });
+
+			const token = generateToken(user, userOrganization);
+			return {
+				token,
+			};
+		},
+
+		async changePassword(_, { currentPassword, newPassword, confirmedNewPassword }, context) {
+			const user = checkAuth(context);
+			const userCurrentPassword = await (await UserModel.findById(user.id)).password;
+			const errors = await validatePasswords(
+				userCurrentPassword,
+				currentPassword,
+				newPassword,
+				confirmedNewPassword
+			);
+			const areThereAnyErrors = Object.values(errors).some((el) => el.length);
+			if (areThereAnyErrors) {
+				throw new UserInputError('Errors during user password change', {
+					errors,
+				});
+			}
+			const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+			await UserModel.updateOne({ _id: user.id }, { $set: { password: hashedPassword } });
+
+			return {
+				description: 'Password changed successfully!',
+			};
+		},
+
+		async deleteUser(_, { currentPassword }, context) {
+			const user = checkAuth(context);
+			const userCurrentPassword = await (await UserModel.findById(user.id)).password;
+			const isPasswordMatch = await bcrypt.compare(currentPassword, userCurrentPassword);
+
+			if (!isPasswordMatch) {
+				throw new UserInputError('Errors during user deletion', {
+					errors: {
+						currentPassword: `Password doesn't match`,
+					},
+				});
+			}
+
+			await UserModel.deleteOne({ _id: user.id });
+
+			return {
+				description: 'User deleted successfully!',
+			};
+		},
+
+		async register(
+			_,
+			{ registerInput: { username, email, password, confirmPassword, organizationCode, organizationName } }
+		) {
+			const errors = validateRegisterInput(
+				username,
+				email,
+				password,
+				confirmPassword,
+				organizationCode,
+				organizationName
+			);
 			const areThereAnyErrors = Object.values(errors).some((el) => el.length);
 
 			if (areThereAnyErrors) {
@@ -74,7 +172,6 @@ export const UsersResolvers = {
 					errors,
 				});
 			}
-			// TODO: make sure that user doesn't already exist
 
 			const hashedPassword = await bcrypt.hash(password, 12);
 			const user = await UserModel.findOne({ username });
@@ -86,15 +183,28 @@ export const UsersResolvers = {
 					},
 				});
 			}
+			const organizationResult = await getOrganization(organizationCode, organizationName);
+			const areThereAnyOrganizationErrors = Object.values(organizationResult.errors).some((el) => el.length);
+
+			if (areThereAnyOrganizationErrors) {
+				throw new UserInputError(`Problem with organization`, {
+					errors: {
+						...organizationResult.errors,
+					},
+				});
+			}
+			const organization = await organizationResult.organization.save();
+
 			const newUser = new UserModel({
 				email,
 				username,
 				password: hashedPassword,
 				createdAt: new Date().toISOString(),
+				organization: organization.id,
 			});
 
 			const res = await newUser.save();
-			const token = generateToken(res);
+			const token = generateToken(res, organization);
 
 			return {
 				username: res.username,
@@ -103,6 +213,8 @@ export const UsersResolvers = {
 				id: res.id,
 				createdAt: res.createdAt,
 				token,
+				organizationName: organization.organizationName,
+				organizationCode: organization.organizationCode,
 			};
 		},
 	},

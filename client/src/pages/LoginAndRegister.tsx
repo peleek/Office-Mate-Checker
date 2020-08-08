@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { LoginForLandingpage } from './LoginForLandingpage';
+import { FormContainer } from './FormContainer';
 import '../homepage.css';
 
 /* eslint-disable-next-line */
@@ -11,7 +11,7 @@ export const LoginAndRegister: React.FC = () => {
 		<div className="ui-container">
 			<Grid className="login-form" container>
 				<Grid item xs={12} sm={4}>
-					<LoginForLandingpage />
+					<FormContainer />
 				</Grid>
 				<Grid item xs={12} sm={8}>
 					<div className="homepage-photo">

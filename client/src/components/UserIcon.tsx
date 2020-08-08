@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import { Link } from 'react-router-dom';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -51,7 +52,10 @@ export const UserIcon: React.FC<Props> = ({ styles }) => {
 				open={open}
 				onClose={handleClose}
 			>
-				<MenuItem onClick={handleClose}>My account</MenuItem>
+				<MenuItem component={Link} to="/settings" onClick={handleClose}>
+					My account
+				</MenuItem>
+
 				<MenuItem onClick={logout}>Logout</MenuItem>
 			</Menu>
 		</div>
