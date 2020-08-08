@@ -62,7 +62,7 @@ export const typeDefs = gql`
 
 	type Query {
 		getUserEvents(username: String): [Event]
-		getUsers(usernamePart: String!): [String!]
+		getUsers(usernamePart: String!, userId: String!): [String!]
 	}
 
 	input UserDataInput {

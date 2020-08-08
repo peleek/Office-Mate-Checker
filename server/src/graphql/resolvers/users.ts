@@ -29,11 +29,14 @@ const generateToken = (user: IUserSchema, userOrganization: IOrganizationSchema)
 
 export const UsersResolvers = {
 	Query: {
-		async getUsers(_, { usernamePart }, context) {
+		async getUsers(_, { usernamePart, userId }, context) {
 			checkAuth(context);
 			try {
+				const loggedUser = await UserModel.findOne({ _id: userId });
 				const foundUsers = await UserModel.find({ username: { $regex: usernamePart, $options: 'i' } });
-				return foundUsers.map((el) => el.username);
+				return foundUsers
+					.filter((el) => el.organization.toString() === loggedUser.organization.toString())
+					.map((el) => el.username);
 			} catch (err) {
 				throw new Error(err);
 			}
