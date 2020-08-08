@@ -8,7 +8,7 @@
         "install-client": "cd client && yarn"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^3.0.2",
+        "@typescript-eslint/eslint-plugin": "^3.8.0",
         "@typescript-eslint/parser": "^3.0.2",
         "eslint": "^6.8.0",
         "eslint-config-airbnb": "^18.1.0",
