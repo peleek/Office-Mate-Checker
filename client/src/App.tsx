@@ -7,6 +7,7 @@ import { AuthContextProvider } from './context/authContext';
 import { Navbar } from './components/Navbar';
 import { CalendarPage } from './pages/CalendarPage';
 import { UserSettings } from './pages/UserSettings';
+import { CalendarContextProvider } from './context/calendarContext';
 
 const useStyles = makeStyles(() => ({
 	appContainer: {
@@ -18,15 +19,17 @@ export const App = () => {
 	const classes = useStyles();
 	return (
 		<AuthContextProvider>
-			<Router>
-				<Container className={classes.appContainer}>
-					<Navbar />
-					<Route exact path="/" component={Home} />
-					<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
-					<AuthRoute noAccess exact path="/matecalendar" component={CalendarPage} />
-					<AuthRoute noAccess exact path="/settings" component={UserSettings} />
-				</Container>
-			</Router>
+			<CalendarContextProvider>
+				<Router>
+					<Container className={classes.appContainer}>
+						<Navbar />
+						<Route exact path="/" component={Home} />
+						<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
+						<AuthRoute noAccess exact path="/matecalendar" component={CalendarPage} />
+						<AuthRoute noAccess exact path="/settings" component={UserSettings} />
+					</Container>
+				</Router>
+			</CalendarContextProvider>
 		</AuthContextProvider>
 	);
 };

@@ -5,6 +5,8 @@ type User = {
 	id: string;
 	email: string;
 	username: string;
+	organizationCode: string;
+	token: string;
 };
 
 type State = {
@@ -59,7 +61,7 @@ export const authReducer = (initState, action) => {
 export const AuthContextProvider: React.FC = (props) => {
 	const [{ user }, dispatch] = useReducer(authReducer, reducerInitialState);
 
-	function login(userData) {
+	function login(userData: User) {
 		localStorage.setItem('jwtToken', userData.token);
 		const decodedToken = jwtDecode(localStorage.getItem('jwtToken'));
 

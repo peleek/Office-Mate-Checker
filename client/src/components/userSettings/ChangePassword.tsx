@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { ChangePasswordField } from './ChangePasswordField';
-import { Grid, Typography, TextField, Box, Button } from '@material-ui/core';
-import { userSetingsStyles } from './userSettings.style';
-import { USER_PASSWORD_MUTATION } from './queries/changeUserPassword';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { Grid, Typography, Box, Button } from '@material-ui/core';
+import { Alert } from './Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { useMutation } from '@apollo/react-hooks';
-
-const Alert = (props: AlertProps) => {
-	return <MuiAlert elevation={6} variant="filled" {...props} />;
-};
+import { USER_PASSWORD_MUTATION } from './queries/changeUserPassword';
+import { userSetingsStyles } from './userSettings.style';
+import { ChangePasswordField } from './ChangePasswordField';
 
 const emptyErrors = {
 	currentPassword: [],
@@ -34,16 +30,16 @@ export const ChangePassword = ({ openChangePassword, setChangePassword }) => {
 		setFailOpen(false);
 	};
 
-	const [changePassword, { loading }] = useMutation(USER_PASSWORD_MUTATION, {
-		update(proxy, response) {
+	const [changePassword] = useMutation(USER_PASSWORD_MUTATION, {
+		update() {
 			setSuccessOpen(true);
 			setTimeout(() => setSuccessOpen(false), 6000);
 		},
 		onError(err) {
-			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
-			if (userDataErrors) {
-				setErrors(userDataErrors);
-			} else setErrors(userDataErrors);
+			const changePasswordErrors = err.graphQLErrors[0]?.extensions?.exception.errors;
+			if (changePasswordErrors) {
+				setErrors(changePasswordErrors);
+			} else setErrors(changePasswordErrors);
 			setFailOpen(true);
 			setTimeout(() => setFailOpen(false), 6000);
 		},

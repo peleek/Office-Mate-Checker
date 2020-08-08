@@ -11,18 +11,10 @@ import { AddUserPhoto } from '../components/userSettings/AddUserPhoto';
 
 export function UserSettings() {
 	const [openChangePassword, setChangePassword] = useState(false);
-	const [openDeleteModal, setDeleteModalOpen] = useState(false);
+	const [modalOpenState, setModalOpenState] = useState(false);
 	const [openPersonalData, setPersonalData] = useState(false);
 	const { user } = useContext(AuthContext);
 	const styles = userSetingsStyles();
-
-	const handleOpenModal = () => {
-		setDeleteModalOpen(true);
-	};
-
-	const handleCloseModal = () => {
-		setDeleteModalOpen(false);
-	};
 
 	return (
 		<Grid container className={styles.userSettingsContainer}>
@@ -38,18 +30,18 @@ export function UserSettings() {
 								user={user}
 								setPersonalData={setPersonalData}
 							/>
-							<OrganizationData user={user} />
+							<OrganizationData organizationCode={user.organizationCode} />
 							<ChangePassword
 								openChangePassword={openChangePassword}
 								setChangePassword={setChangePassword}
 							/>
-							<DeleteAccount handleOpenModal={handleOpenModal} />
+							<DeleteAccount handleOpenModal={() => setModalOpenState(true)} />
 						</form>
 					</Grid>
 					<AddUserPhoto />
 				</Grid>
 			</Grid>
-			<DeleteModal openDeleteModal={openDeleteModal} handleCloseModal={handleCloseModal} />
+			<DeleteModal modalOpenState={modalOpenState} setModalOpenState={setModalOpenState} />
 		</Grid>
 	);
 }

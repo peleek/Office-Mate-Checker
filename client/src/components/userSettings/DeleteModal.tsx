@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Modal, Button, TextField, Typography } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { userSetingsStyles } from './userSettings.style';
 import { useMutation } from '@apollo/react-hooks';
+import { userSetingsStyles } from './userSettings.style';
 import { DELETE_USER_MUTATION } from './queries/deleteUser';
 import { AuthContext } from '../../context/authContext';
 
@@ -11,25 +11,26 @@ const emptyErrors = {
 	currentPassword: [],
 };
 
-export function DeleteModal({ openDeleteModal, handleCloseModal }) {
+type DeleteAccountErrors = {
+	currentPassword: [];
+};
+
+export const DeleteModal = ({ modalOpenState, setModalOpenState }) => {
 	const { logout } = useContext(AuthContext);
 
 	const styles = userSetingsStyles();
 	const [errors, setErrors] = useState(emptyErrors);
-	const [openFailSnackbar, setFailOpen] = useState(false);
 	const [currentPassword, setCurrentPassword] = useState('');
 
-	const [deleteUser, { loading }] = useMutation(DELETE_USER_MUTATION, {
-		update(proxy, response) {
+	const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
+		update() {
 			logout();
 		},
 		onError(err) {
-			const userDataErrors = err.graphQLErrors[0]?.extensions?.exception.errors as any[];
-			if (userDataErrors) {
-				setErrors(userDataErrors);
-			} else setErrors(userDataErrors);
-			setFailOpen(true);
-			setTimeout(() => setFailOpen(false), 6000);
+			const deleteAccountErrors = err.graphQLErrors[0]?.extensions?.exception.errors as DeleteAccountErrors;
+			if (deleteAccountErrors) {
+				setErrors(deleteAccountErrors);
+			} else setErrors(deleteAccountErrors);
 		},
 		variables: {
 			currentPassword,
@@ -48,15 +49,15 @@ export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
 				className={styles.modal}
-				open={openDeleteModal}
-				onClose={handleCloseModal}
+				open={modalOpenState}
+				onClose={() => setModalOpenState(false)}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
 				}}
 			>
-				<Fade in={openDeleteModal}>
+				<Fade in={modalOpenState}>
 					<div className={styles.modalPaper}>
 						<Typography className={styles.inputLabel} variant="h6">
 							If you want to delete an account enter password and submit
@@ -85,4 +86,4 @@ export function DeleteModal({ openDeleteModal, handleCloseModal }) {
 			</Modal>
 		</div>
 	);
-}
+};
