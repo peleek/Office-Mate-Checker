@@ -3,9 +3,10 @@ import gql from 'graphql-tag';
 export const getEventsQuery = gql`
 	query events($username: String) {
 		getUserEvents(username: $username) {
+			title
 			start
 			end
-			title
+			id
 		}
 	}
 `;

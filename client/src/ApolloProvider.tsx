@@ -1,9 +1,11 @@
 import * as React from 'react';
-import ApolloClient from 'apollo-client';
+import { ApolloClient, ApolloLink } from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
+import { onError } from 'apollo-link-error';
+
 import { App } from './App';
 
 const httpLink = createHttpLink({
@@ -19,8 +21,12 @@ const authLink = setContext(() => {
 	};
 });
 
+const errorLink = onError(({ graphQLErrors }) => {
+	if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message));
+});
+
 const client = new ApolloClient({
-	link: authLink.concat(httpLink),
+	link: ApolloLink.from([errorLink, authLink, httpLink]),
 	cache: new InMemoryCache(),
 });
 

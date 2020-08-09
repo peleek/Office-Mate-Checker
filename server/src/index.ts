@@ -11,11 +11,12 @@ dotEnvConfig();
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
-	context: ({ req }) => ({ req })
+	context: ({ req }) => ({ req }),
 });
 
+mongoose.set('useFindAndModify', false);
 mongoose
-	.connect(`${process.env.MONGODB}`, { useNewUrlParser: true })
+	.connect(`${process.env.MONGODB}`, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		console.log('Connected to database!');
 		return server.listen({ port: 5000 });
