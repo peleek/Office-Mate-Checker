@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
-import { EventApi, DateSelectArg, EventClickArg, EventContentArg, guid } from '@fullcalendar/react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { DateSelectArg, EventClickArg, guid } from '@fullcalendar/react';
 
 const DateModalContext = createContext(null);
 
@@ -8,41 +8,50 @@ export const useDateModalContext = () => useContext(DateModalContext);
 export const DateModalContextProvider = (props) => {
 	const [open, setOpen] = useState(false);
 	const [initialDate, setInitialDate] = useState({});
-
+	const [calendarRef, setCalendarRef] = useState();
 	const handleDateSelect = (selectInfo: DateSelectArg) => {
 		setInitialDate(selectInfo);
-		console.log(selectInfo);
 		setOpen(true);
 	};
 
-	const submitDateSelect = ({ startStr, endStr, allDay, selectInfo, title }) => {
-		// const title = prompt('Please enter a new title for your event');
-		const calendarApi = selectInfo.view.calendar;
+	useEffect(() => {
+		console.log(calendarRef);
+	});
 
-		calendarApi.unselect(); // clear date selection
+	const submitDateSelect = ({ startStr, endStr, allDay, view, title }) => {
+		const calendarApi = view.calendar;
 
-		if (selectInfo.title) {
+		if (title) {
+			// @ts-ignore: Unreachable code error
+
 			calendarApi.addEvent({
 				id: guid(),
 				title,
 				start: startStr,
 				end: endStr,
-				allDay: allDay,
+				allDay,
 			});
 		}
+		setOpen(false);
 	};
 
 	const handleEventClick = (clickInfo: EventClickArg) => {
-		// eslint-disable-next-line no-alert
-		// eslint-disable-next-line no-restricted-globals
-		if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-			clickInfo.event.remove();
-		}
+		setInitialDate(clickInfo.event);
+		setOpen(true);
 	};
 
 	return (
 		<DateModalContext.Provider
-			value={{ handleEventClick, handleDateSelect, submitDateSelect, initialDate, open, setOpen, setInitialDate }}
+			value={{
+				setCalendarRef,
+				handleEventClick,
+				handleDateSelect,
+				submitDateSelect,
+				initialDate,
+				open,
+				setOpen,
+				setInitialDate,
+			}}
 			{...props}
 		/>
 	);

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import FullCalendar, { EventApi } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -18,12 +18,20 @@ export const CalendarDemo = ({
 	initialEvents,
 	handleDateSelect,
 	loading,
+	setCalendarRef,
 }: ICalendarProps): JSX.Element => {
 	const calendarRef: React.Ref<any> = useRef(null);
+	const [value, e] = useState('dfsdf');
+	useEffect(() => {
+		if (!calendarRef.current) {
+			return;
+		}
+		setCalendarRef(calendarRef.current);
+	});
+
 	const [addEvent] = useMutation(ADD_EVENT_MUTATION);
 	const [removeEvent] = useMutation(REMOVE_EVENT_MUTATION);
 	const [changeEvent] = useMutation(CHANGE_EVENT_MUTATION);
-
 	return (
 		<>
 			{loading ? (

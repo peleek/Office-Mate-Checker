@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const CalendarPage: React.FC<RouteComponentProps<ParamProps>> = (props): JSX.Element => {
 	const styles = useStyles();
-	const { handleEventClick, handleDateSelect } = useDateModalContext();
+	const { handleEventClick, handleDateSelect, setCalendarRef } = useDateModalContext();
 	const [weekendsVisible, setWeekendsVisible] = useState(true);
 	const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
 	const { user } = useContext(AuthContext);
@@ -59,6 +59,7 @@ export const CalendarPage: React.FC<RouteComponentProps<ParamProps>> = (props): 
 					weekendsVisible={weekendsVisible}
 					initialEvents={data?.getUserEvents || []}
 					loading={loading}
+					setCalendarRef={setCalendarRef}
 				/>
 			</Grid>
 		</Grid>

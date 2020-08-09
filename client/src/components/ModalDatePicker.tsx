@@ -19,20 +19,19 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ModalDatePicker = () => {
 	const styles = useStyles();
 	const { initialDate, submitDateSelect } = useDateModalContext();
-	console.log(initialDate);
-	const { startStr, endStr, selectInfo } = initialDate;
+
+	const { startStr, endStr } = initialDate;
 	const [selectedStartDate, setStartSelectedDate] = useState<Date | null>(startStr.substring(0, startStr.length - 6));
 	const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(endStr.substring(0, startStr.length - 6));
-	const [title, setTile] = useState('');
-
+	const [title, setTile] = useState(initialDate.title ? initialDate.title : '');
+	const view = initialDate.view ? initialDate.view : initialDate._context.calendarApi;
 	const eventObject = {
 		startStr: `${selectedStartDate}+03:00`,
 		endStr: `${selectedEndDate}+03:00`,
-		allDay: selectInfo.allDay,
-		selectInfo,
+		allDay: initialDate.allDay,
+		view,
 		title,
 	};
-
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<Grid container justify="space-around">
@@ -90,6 +89,7 @@ export const ModalDatePicker = () => {
 					variant="outlined"
 					className={styles.input}
 					value={title}
+					autoFocus
 				/>
 				<Button onClick={() => submitDateSelect(eventObject)} size="medium" variant="outlined" color="primary">
 					Submit

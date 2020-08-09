@@ -12,4 +12,5 @@ export interface ICalendarProps {
 	weekendsVisible: boolean;
 	initialEvents: any;
 	loading: boolean;
+	setCalendarRef: any;
 }
