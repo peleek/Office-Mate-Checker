@@ -1,10 +1,5 @@
 import { EventApi, DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/react';
 
-export type Event = {
-	start: number;
-	end: number;
-	title: string;
-};
 export interface ICalendarState {
 	currentEvents: EventApi[];
 }

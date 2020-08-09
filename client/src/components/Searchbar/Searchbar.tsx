@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import Box from '@material-ui/core/Box';
 import { useLazyQuery } from '@apollo/react-hooks';
@@ -7,12 +7,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSearchbarStyles } from './Searchbar.style';
 import { getUsersQuery } from './queries/getUsersQuery';
+import { AuthContext } from '../../context/authContext';
 
 const SearchbarComponent: React.FC<RouteComponentProps> = ({ history }) => {
 	const classes = useSearchbarStyles();
 	const [value, setValue] = useState('');
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState<string[]>([]);
+	const { user } = useContext(AuthContext);
 
 	const [getUsers, { data, loading }] = useLazyQuery(getUsersQuery);
 
@@ -21,6 +23,7 @@ const SearchbarComponent: React.FC<RouteComponentProps> = ({ history }) => {
 			getUsers({
 				variables: {
 					usernamePart: value,
+					userId: user.id,
 				},
 			});
 		}

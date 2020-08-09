@@ -7,8 +7,8 @@ import { CircularProgress } from '@material-ui/core';
 import './calendarStyle.css';
 import { useMutation } from '@apollo/react-hooks';
 import { ICalendarProps } from './types';
-import { ADD_EVENT_MUTATION } from './graphql/eventMutations';
 import { EventModal } from './EventModal';
+import { ADD_EVENT_MUTATION, REMOVE_EVENT_MUTATION, CHANGE_EVENT_MUTATION } from './graphql/eventMutations';
 
 export const CalendarDemo = ({
 	setCurrentEvents,
@@ -20,16 +20,9 @@ export const CalendarDemo = ({
 	loading,
 }: ICalendarProps): JSX.Element => {
 	const calendarRef: React.Ref<any> = useRef(null);
-
-	const [addEvent] = useMutation(ADD_EVENT_MUTATION, {
-		update(proxy, response) {
-			// event is is here : response.data.addEvent.eventId
-			// its needed to handle remove this event from pendingEvents array
-		},
-		onError(err) {
-			// remove it from pendingEvents array and also call revert() function on this event
-		},
-	});
+	const [addEvent] = useMutation(ADD_EVENT_MUTATION);
+	const [removeEvent] = useMutation(REMOVE_EVENT_MUTATION);
+	const [changeEvent] = useMutation(CHANGE_EVENT_MUTATION);
 
 	return (
 		<>
@@ -58,7 +51,22 @@ export const CalendarDemo = ({
 							eventClick={handleEventClick}
 							eventsSet={(events: EventApi[]) => setCurrentEvents(events)} // called after events are initialized/added/changed/removed
 							eventAdd={(e) => {
-								addEvent({ variables: { event: e.event }, context: { event: e.event } });
+								addEvent({ variables: { event: e.event } });
+							}}
+							eventRemove={(e) => {
+								removeEvent({ variables: { eventId: e.event.id } });
+							}}
+							eventChange={(e) => {
+								changeEvent({
+									variables: {
+										event: {
+											id: e.event.id,
+											title: e.event.title,
+											start: e.event.start,
+											end: e.event.end,
+										},
+									},
+								});
 							}}
 						/>
 					</div>

@@ -28,28 +28,17 @@ export const typeDefs = gql`
 	}
 
 	input EventInput {
-		title: String
-		start: String
-		end: String
-		startStr: String
-		endStr: String
-		id: String
-		groupId: String
-		allDay: Boolean
-		url: String
-		display: String
-		startEditable: Boolean
-		durationEditable: Boolean
-		overlap: Boolean
-		backgroundColor: String
-		borderColor: String
-		textColor: String
+		title: String!
+		start: String!
+		end: String!
+		id: String!
 	}
 
 	type Event {
 		start: Float!
 		end: Float!
 		title: String!
+		id: String!
 	}
 
 	type Status {
@@ -62,7 +51,7 @@ export const typeDefs = gql`
 
 	type Query {
 		getUserEvents(username: String): [Event]
-		getUsers(usernamePart: String!): [String!]
+		getUsers(usernamePart: String!, userId: String!): [String!]
 	}
 
 	input UserDataInput {
@@ -78,9 +67,9 @@ export const typeDefs = gql`
 		register(registerInput: RegisterInput): User!
 		login(username: String!, password: String!): User!
 		updateEvents(events: [EventInput]): Status!
-		addEvent(event: EventInput): EventResponse!
-		removeEvent(eventId: String!): EventResponse!
-		changeEvent(events: [EventInput]): EventResponse!
+		addEvent(event: EventInput!): Status!
+		removeEvent(eventId: String!): Status!
+		changeEvent(event: EventInput!): Status!
 		changeUserData(userData: UserDataInput!): ChangedDataResponse!
 		changePassword(currentPassword: String!, newPassword: String!, confirmedNewPassword: String!): Status!
 		deleteUser(currentPassword: String!): Status!

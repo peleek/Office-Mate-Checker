@@ -12,6 +12,7 @@ export const EventsResolvers = {
 					const foundUser = await UserModel.findOne({ username });
 					events = foundUser ? await EventModel.find({ creator: foundUser.id }) : [];
 				} else events = await EventModel.find({ creator: user.id });
+
 				return events;
 			} catch (err) {
 				throw new Error(err);
@@ -50,7 +51,7 @@ export const EventsResolvers = {
 				await newEvent.save();
 
 				return {
-					eventId: event.id,
+					description: 'Event added successfully!',
 				};
 			} catch (err) {
 				throw new Error(err);
@@ -59,17 +60,9 @@ export const EventsResolvers = {
 
 		async changeEvent(_, { event }, context) {
 			try {
-				// const user = checkAuth(context);
-				// await EventModel.deleteMany({ creator: user.id });
-				// events.forEach(async (el) => {
-				// 	const event = new EventModel({
-				// 		start: el.start,
-				// 		end: el.end,
-				// 		title: el.title,
-				// 		creator: user.id,
-				// 	});
-				// 	await event.save();
-				// });
+				checkAuth(context);
+				const { id, ...rest } = event;
+				await EventModel.findOneAndUpdate({ eventId: id }, { ...rest });
 
 				return {
 					description: 'Event changed successfully!',
@@ -81,20 +74,11 @@ export const EventsResolvers = {
 
 		async removeEvent(_, { eventId }, context) {
 			try {
-				// const user = checkAuth(context);
-				// await EventModel.deleteMany({ creator: user.id });
-				// events.forEach(async (el) => {
-				// 	const event = new EventModel({
-				// 		start: el.start,
-				// 		end: el.end,
-				// 		title: el.title,
-				// 		creator: user.id,
-				// 	});
-				// 	await event.save();
-				// });
+				checkAuth(context);
+				await EventModel.findOneAndDelete({ eventId });
 
 				return {
-					description: 'remove added successfully!',
+					description: 'Event removed successfully!',
 				};
 			} catch (err) {
 				throw new Error(err);

@@ -16,7 +16,6 @@
             "request": "attach",
             "name": "Attach",
             "port": 5858,
-            ""
             "skipFiles": [
                 "<node_internals>/**"
             ]
