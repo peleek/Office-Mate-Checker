@@ -9,7 +9,7 @@
 }
 
 .calendar-sidebar li {
-	margin: 1.5em 0;
+	margin: 1rem 0;
 	padding: 0;
 }
 
@@ -25,15 +25,20 @@
 	font-size: 14px;
 }
 
+.fc .fc-button-primary {
+	background-color: #3f51b5;
+	border-color: #3f51b5;
+}
+
 .calendar-sidebar {
 	width: 300px;
 	line-height: 1.5;
-	background: #eaf9ff;
+	background-color: #9f9aa4;
 	border-right: 1px solid #d3e2e8;
 }
 
 .calendar-sidebar-section {
-	padding: 2em;
+	padding: 0.6rem;
 }
 
 .calendar-main {

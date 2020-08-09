@@ -7,12 +7,23 @@ import { CalendarSidebar } from '../components/calendar/CalendarSidebar';
 import { getEventsQuery } from '../components/calendar/getEventsFromServer';
 import { CalendarDemo } from '../components/calendar/CalendarDemo';
 import { AuthContext } from '../context/authContext';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDateModalContext } from '../context/dateModalContext';
 
 type ParamProps = {
 	name: string;
 };
 
+const useStyles = makeStyles((theme) => ({
+	calendarContainer: {
+		maxHeight: '500px',
+		overflow: 'hiden',
+	},
+}));
+
 export const CalendarPage: React.FC<RouteComponentProps<ParamProps>> = (props): JSX.Element => {
+	const styles = useStyles();
+	const { handleEventClick, handleDateSelect } = useDateModalContext();
 	const [weekendsVisible, setWeekendsVisible] = useState(true);
 	const [currentEvents, setCurrentEvents] = useState<EventApi[]>([]);
 	const { user } = useContext(AuthContext);
@@ -20,31 +31,6 @@ export const CalendarPage: React.FC<RouteComponentProps<ParamProps>> = (props): 
 	const { loading, data } = useQuery(getEventsQuery, {
 		variables: { username: props.match.params.name?.substring(1) || user.username },
 	});
-
-	const handleDateSelect = (selectInfo: DateSelectArg) => {
-		const title = prompt('Please enter a new title for your event');
-		const calendarApi = selectInfo.view.calendar;
-
-		calendarApi.unselect(); // clear date selection
-
-		if (title) {
-			calendarApi.addEvent({
-				id: guid(),
-				title,
-				start: selectInfo.startStr,
-				end: selectInfo.endStr,
-				allDay: selectInfo.allDay,
-			});
-		}
-	};
-
-	const handleEventClick = (clickInfo: EventClickArg) => {
-		// eslint-disable-next-line no-alert
-		// eslint-disable-next-line no-restricted-globals
-		if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-			clickInfo.event.remove();
-		}
-	};
 
 	const renderEventContent = (eventContent: EventContentArg) => {
 		return (
@@ -56,7 +42,7 @@ export const CalendarPage: React.FC<RouteComponentProps<ParamProps>> = (props): 
 	};
 
 	return (
-		<Grid container>
+		<Grid container className={styles.calendarContainer}>
 			<Grid item xs={2}>
 				<CalendarSidebar
 					setWeekendsVisible={setWeekendsVisible}

@@ -8,6 +8,7 @@ import './calendarStyle.css';
 import { useMutation } from '@apollo/react-hooks';
 import { ICalendarProps } from './types';
 import { ADD_EVENT_MUTATION } from './graphql/eventMutations';
+import { EventModal } from './EventModal';
 
 export const CalendarDemo = ({
 	setCurrentEvents,
@@ -19,6 +20,7 @@ export const CalendarDemo = ({
 	loading,
 }: ICalendarProps): JSX.Element => {
 	const calendarRef: React.Ref<any> = useRef(null);
+
 	const [addEvent] = useMutation(ADD_EVENT_MUTATION, {
 		update(proxy, response) {
 			// event is is here : response.data.addEvent.eventId
@@ -60,6 +62,7 @@ export const CalendarDemo = ({
 							}}
 						/>
 					</div>
+					<EventModal />
 				</div>
 			)}
 		</>

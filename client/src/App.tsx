@@ -9,6 +9,7 @@ import { CalendarPage } from './pages/CalendarPage';
 import { UserSettings } from './pages/UserSettings';
 import { CalendarContextProvider } from './context/calendarContext';
 import { NoCalendarInformation } from './components/NoCalendarInformation';
+import { DateModalContextProvider } from './context/dateModalContext';
 
 const useStyles = makeStyles(() => ({
 	appContainer: {
@@ -21,16 +22,18 @@ export const App = () => {
 	return (
 		<AuthContextProvider>
 			<CalendarContextProvider>
-				<Router>
-					<Container className={classes.appContainer}>
-						<Navbar />
-						<Route exact path="/" component={Home} />
-						<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
-	    				<AuthRoute noAccess exact path="/matecalendar" component={NoCalendarInformation} />
-                        <AuthRoute noAccess exact path="/settings" component={UserSettings} />
-                        <AuthRoute noAccess exact path="/matecalendar:name" component={CalendarPage} />
-					</Container>
-				</Router>
+				<DateModalContextProvider>
+					<Router>
+						<Container className={classes.appContainer}>
+							<Navbar />
+							<Route exact path="/" component={Home} />
+							<AuthRoute noAccess exact path="/mycalendar" component={CalendarPage} />
+							<AuthRoute noAccess exact path="/matecalendar" component={NoCalendarInformation} />
+							<AuthRoute noAccess exact path="/settings" component={UserSettings} />
+							<AuthRoute noAccess exact path="/matecalendar:name" component={CalendarPage} />
+						</Container>
+					</Router>
+				</DateModalContextProvider>
 			</CalendarContextProvider>
 		</AuthContextProvider>
 	);
